@@ -125,6 +125,225 @@
 
   <script type="text/javascript">
     const LEVELS = {
+    0: {
+      "id": 0,
+      "title": "Kyberbezpečnostná hra 0 – Laik | Vládna jednotka CSIRT",
+      "brandTitle": "Kyberbezpečnostná hra 0 – Laik | Vládna jednotka CSIRT",
+      "brandSubtitle": "Laická úroveň • praktické situácie pre zamestnancov, občanov a ľudí mimo IT",
+      "heroTitle": "Úroveň 0: kyberbezpečnosť bez technického slovníka",
+      "heroText": "Kliknite na políčko, rozhodnite, či ide o fakt alebo mýtus, a zistite, čo má bežný používateľ urobiť pri podozrivom e-maile, telefonáte, správe alebo incidente.",
+      "heroLinksHtml": "Táto úroveň vysvetľuje najčastejšie omyly: čo má riešiť zamestnanec, čo interné IT alebo bezpečnostný tím a kedy sa do riešenia zapája <a href='https://csirt.sk/o-nas.html' target='_blank' rel='noopener noreferrer'>Vládna jednotka CSIRT</a>.",
+      "hidden": false,
+      "questions": [
+            // 1
+            {
+                  "q": "Ak ako zamestnanec dostanem podozrivý e-mail, najlepšie je nahlásiť ho podľa interného postupu svojmu IT, bezpečnostnému tímu alebo správcovi.",
+                  "correct": true,
+                  "e": "Bežný používateľ nemá robiť vlastnú technickú analýzu. Dôležité je neklikať, neodpovedať, neposielať prihlasovacie údaje a správu nahlásiť na miesto určené organizáciou. Interné IT alebo bezpečnostný tím potom rozhodne, či ide o incident, ako ho spracovať a či je potrebná ďalšia súčinnosť.",
+                  "tip": "Ak ste už klikli alebo zadali heslo, nahláste to okamžite. Rýchle nahlásenie je lepšie než tiché zametanie problému."
+            },
+            // 2
+            {
+                  "q": "Súkromná osoba má každý podvodný telefonát, SMS alebo phishing automaticky nahlasovať priamo na VJ CSIRT.",
+                  "correct": false,
+                  "e": "VJ CSIRT pomáha najmä organizáciám štátnej a verejnej správy pri incidentoch týkajúcich sa informačných technológií verejnej správy. Bežný občan by mal podvodnú komunikáciu riešiť najmä cez svoju banku, operátora, platformu, políciu alebo inú príslušnú inštitúciu podľa situácie. Ak ide o zamestnanca organizácie, prvý kontakt je interné IT alebo bezpečnostný tím.",
+                  "tip": "Ak sa podvod týka služobnej schránky, pracovného účtu alebo systému verejnej správy, neignorujte interný postup organizácie."
+            },
+            // 3
+            {
+                  "q": "VJ CSIRT je servisný tím, ktorý chodí opravovať počítače bežným používateľom alebo napraviť nekvalitne vykonanú prácu.",
+                  "correct": false,
+                  "e": "Úlohou VJ CSIRT je poskytovať odbornú kapacitu, koordináciu, odporúčania, analýzu a podporu pre kybernetickú bezpečnosť verejnej správy. Nenahrádza interné IT, dodávateľa, správcu systému ani zmluvnú servisnú podporu.",
+                  "tip": "Dobrá prax je mať jasne určené, kto je interný vlastník systému, kto je dodávateľ a kto komunikuje s bezpečnostným tímom."
+            },
+            // 4
+            {
+                  "e": "Pre bežného zamestnanca stačia tri pravidlá: neklikaj bez rozmýšľania, neodovzdávaj heslá ani kódy a podozrenie nahlás. Kyberbezpečnosť nie je iba vec IT oddelenia, ale bežný používateľ nemá suplovať administrátora ani analytika.",
+                  "correct": null,
+                  "tip": "Cieľom nie je urobiť z každého forenzného experta. Cieľom je, aby používateľ vedel včas zastaviť rizikové správanie a posunúť informáciu správnym ľuďom."
+            },
+            // 5
+            {
+                  "q": "Phishing spoznám vždy podľa gramatických chýb a zvláštnej slovenčiny.",
+                  "correct": false,
+                  "e": "Mnohé podvodné správy sú dnes jazykovo kvalitné, používajú logo známej organizácie, reálne mená, urgentný tón a odkazy na stránky, ktoré vyzerajú dôveryhodne. Gramatické chyby sú varovný signál, ale ich neprítomnosť neznamená bezpečie.",
+                  "tip": "Sledujte najmä kontext: čakali ste takú správu, sedí odosielateľ, doména, odkaz, príloha a požiadavka? Alebo sa do Vás niekto bezhlavo zamiloval online, bez toho, aby ste sa niekedy stretli a nebude už nikdy milovať nikoho iného, len mu chýba od Vás 1000 EUR na letenky."
+            },
+            // 6
+            {
+                  "q": "Ak má web stránka zámok alebo HTTPS, môžem jej automaticky dôverovať.",
+                  "correct": false,
+                  "e": "HTTPS znamená najmä šifrované spojenie medzi prehliadačom a webom. Nehovorí, že obsah webu je pravdivý alebo že stránku neprevádzkuje podvodník. Aj phishingové stránky môžu mať platný certifikát.",
+                  "tip": "Overujte adresu stránky a kontext, nie iba ikonu zámku."
+            },
+            // 7
+            {
+                  "q": "Banka, IT oddelenie ani polícia odo mňa nemajú pýtať heslo alebo jednorazový kód cez telefón, čet alebo e-mail.",
+                  "correct": true,
+                  "e": "Heslá, jednorazové SMS kódy, kódy z autentifikačnej aplikácie a schvaľovanie prihlásení slúžia na potvrdenie vašej identity. Ak ich odovzdáte útočníkovi, môže konať vo vašom mene.",
+                  "tip": "Ak vás niekto tlačí do rýchleho poskytnutia kódu, považujte to za vážny varovný signál."
+            },
+            // 8
+            {
+                  "q": "Ak som na podozrivý odkaz len klikol, ale nič som nevyplnil, nie je potrebné nič nahlásiť.",
+                  "correct": false,
+                  "e": "Kliknutie môže byť stále dôležitá informácia. Bezpečnostný tím môže zistiť, či odkaz smeroval na škodlivú stránku, či sa otvorila príloha, či boli zasiahnutí aj iní zamestnanci a či treba prijať opatrenia.",
+                  "tip": "Pri hlásení uveďte čas, odkiaľ správa prišla a čo presne ste urobili. Netreba sa hanbiť, útočníci sú veľmi vynaliezaví a pri dostatku úsilia môžu oklamať aj skúseného odborníka"
+            },
+            // 9
+            {
+                  "q": "Nahratie celého podozrivého e-mailu alebo prílohy do verejnej online služby môže spôsobiť únik citlivých údajov.",
+                  "correct": true,
+                  "e": "Verejné online nástroje si môžu ponechať nahraný obsah a ten môže byť dostupný ďalším používateľom. Celý e-mail môže obsahovať hlavičky, interné IP adresy, mená zamestnancov, obsah komunikácie alebo iné údaje použiteľné pri ďalších útokoch.",
+                  "tip": "Podozrivý obsah neposielajte do verejných sandboxov alebo databáz bez schváleného interného postupu."
+            },
+            // 10
+            {
+                  "q": "Keď mi príde podozrivá príloha, najlepšie je otvoriť ju v telefóne, lebo telefón je bezpečnejší než počítač.",
+                  "correct": false,
+                  "e": "Telefón nie je bezpečné laboratórium. Aj mobilné zariadenia môžu byť zneužité cez škodlivé odkazy, falošné prihlasovacie stránky, podvodné aplikácie alebo zber prihlasovacích údajov.",
+                  "tip": "Podozrivú prílohu neotvárajte na inom zariadení len preto, aby ste zistili, čo v nej je. Na analýzu majú mať odborníci k dispozícii izolované prostredie."
+            },
+            // 11
+            {
+                  "e": "Nie každý incident sa dostane do médií. Menšie incidenty, pokusy o prienik, zneužité heslá, phishingové kampane, zraniteľné služby a neúspešné útoky sa riešia denne. Verejnosť vidí najmä veľké prípady, ale bezpečnostná prevádzka je priebežná práca.",
+                  "correct": null,
+                  "tip": "Pre organizácie je dôležité mať rutinu: hlásenie, triáž, rozhodnutie, opatrenia a poučenie. Vykonané kroky a opatrenia a to, či postupovala správne a vykonala všetko potrebné si môže overiť u svojej jednotky CSIRT."
+            },
+            // 12
+            {
+                  "q": "Ak sa o incidente nepíše v médiách, pravdepodobne sa nič vážne nedeje.",
+                  "correct": false,
+                  "e": "Medializovaný je len zlomok udalostí. Mnohé incidenty sa riešia interne, bez verejného výpadku alebo bez zverejnenia detailov. Aj neúspešné pokusy a malé nálezy môžu byť užitočné pre prevenciu.",
+                  "tip": "Bezpečnostné hlásenia nie sú zbytočná byrokracia. Pomáhajú vytvárať obraz o hrozbách a teda identifikovať, čomu je potrebné sa prv venovať. IT tím aj tím CSIRT majú takisto plné ruky práce a informácie im pomôžu stanoviť prioritu."
+            },
+            // 13
+            {
+                  "q": "Kyberbezpečnosť sa týka iba IT oddelenia.",
+                  "correct": false,
+                  "e": "IT nastavuje systémy, ale používateľ rozhoduje, či klikne na odkaz, otvorí prílohu, prezradí kód, použije slabé heslo alebo obíde interný postup. Používateľ, ale nerozhoduje o tom, či dostane phishing, dôležité je ho zodpovedne nahlásiť internému tímu. Preto je kyberbezpečnosť spoločná zodpovednosť.",
+                  "tip": "Najlepšia reakcia bežného používateľa je včasné nahlásenie a dodržiavanie interných pravidiel."
+            },
+            // 14
+            {
+                  "q": "Jedno silné heslo môžem používať vo viacerých službách, ak si ho dobre pamätám.",
+                  "correct": false,
+                  "e": "Ak rovnaké heslo unikne z jednej služby, útočník ho môže skúsiť v ďalších službách. Preto má mať každá dôležitá služba vlastné heslo alebo prístupovú frázu.",
+                  "tip": "Správca hesiel (angl. Password Manager) je softvér, ktorý pomáha používať jedinečné heslá bez toho, aby ste si museli všetky heslá pamätať."
+            },
+            // 15
+            {
+                  "q": "Viacfaktorové overenie pomáha aj vtedy, keď mi útočník zistí heslo.",
+                  "correct": true,
+                  "e": "Viacfaktorové overenie (angl. Multi-Factor Authentication, MFA) pridáva ďalšiu vrstvu ochrany. Nie je neprelomiteľné, ale výrazne znižuje riziko, že samotné odcudzené heslo stačí na prihlásenie.",
+                  "tip": "Nikdy neschvaľujte MFA výzvu, ktorú ste sami nevyvolali."
+            },
+            // 16
+            {
+                  "q": "Ak mi príde výzva na viacfaktorové prihlásenie (MFA) a práve sa neprihlasujem, môžem ju schváliť, aby výzvy prestali chodiť.",
+                  "correct": false,
+                  "e": "Nečakaná výzva na MFA môže znamenať, že niekto pozná vaše heslo a pokúša sa prihlásiť. Schválením mu môžete otvoriť účet.",
+                  "tip": "Nečakanú výzvu zamietnite a nahláste ju podľa interného postupu. Pri súkromnom účte si zmeňte heslo, niektoré služby poskytujú aj možnosť automaticky sa odhlásiť zo všetkých relácií (poznáte, ak ste si v minulosti zdieľali streamovacie služby v rámci viacerých domácností)."
+            },
+            // 17
+            {
+                  "q": "Aktualizácie sa oplatí odkladať, kým zariadenie funguje bez problémov.",
+                  "correct": false,
+                  "e": "Aktualizácie často opravujú bezpečnostné chyby, ktoré sa nemusia prejavovať viditeľným problémom. Zariadenie môže vyzerať funkčné a zároveň byť zraniteľné.",
+                  "tip": "Pri pracovných zariadeniach rešpektujte pravidlá organizácie. Pri súkromných zariadeniach zapnite automatické aktualizácie, kde je to možné."
+            },
+            // 18
+            {
+                  "e": "Služby VJ CSIRT majú organizáciám pomáhať najmä odbornou kapacitou, koordináciou, varovaniami, odporúčaniami, analýzou a prevenciou. Zmyslom nie je nahrádzať každodennú správu IT, ale pomôcť verejnej správe (najmä osobám zodpovedným za kybernetickú bezpečnosť) lepšie zvládať bezpečnostné riziká, aby boli používatelia chránení systémovo.",
+                  "correct": null,
+                  "tip": "Pre laika je užitočné vedieť, že eskalácia má postupnosť: používateľ -> interné IT/bezpečnostný tím -> podľa potreby súčinnosť s VJ CSIRT."
+            },
+            // 19
+            {
+                  "q": "Služby VJ CSIRT sú určené na to, aby organizácia nemusela mať vlastné procesy, kontakty a zodpovedných správcov.",
+                  "correct": false,
+                  "e": "Externá alebo nadrezortná pomoc nenahrádza internú zodpovednosť. Organizácia musí vedieť, kto spravuje systémy, kto komunikuje pri incidente, kde sú logy, kto pozná dodávateľov a kto rozhoduje o opatreniach.",
+                  "tip": "Bez základných interných kontaktov a informácií sa incident rieši len veľmi pomaly a je vysoká pravdepodobnosť, že sa v budúcnosti zopakuje."
+            },
+            // 20
+            {
+                  "q": "Metodiky a návody, napríklad hardening webového servera, sú určené najmä správcom a odborníkom; bežný zamestnanec má skôr poznať základné zásady a hlásiť podozrenia.",
+                  "correct": true,
+                  "e": "Nie každý musí vedieť nastavovať server. Je však dobré vedieť, že existujú metodiky pre správcov a že bezpečnosť systému je výsledkom odbornej konfigurácie, údržby, aktualizácií, monitoringu a zodpovedného používania.",
+                  "tip": "Laická úroveň má vysvetliť hranice zodpovednosti, nie učiť konfiguráciu nástrojov. Odborníci z oblasti IT môžu ale využiť metodiky a odporúčania VJ CSIRT"
+            },
+            // 21
+            {
+                  "q": "Ak mi volá niekto, kto sa predstaví ako technická podpora, môžem mu nadiktovať kód z SMS, ak pozná moje meno a pracovisko.",
+                  "correct": false,
+                  "e": "Meno, pracovisko alebo funkcia nemusia byť tajné. Útočník ich môže získať z webu, sociálnych sietí, únikov dát alebo predchádzajúcej komunikácie. Kód z SMS alebo aplikácie je bezpečnostný prvok a nemá sa diktovať.",
+                  "tip": "Hovor ukončite a overte požiadavku cez oficiálny kontakt."
+            },
+            // 22
+            {
+                  "q": "QR kód môže viesť na podvodnú stránku rovnako ako bežný odkaz.",
+                  "correct": true,
+                  "e": "QR kód je len iná forma odkazu. Môže smerovať na platbu, falošné prihlásenie, škodlivú stránku alebo podvodnú aplikáciu, čo označujeme ako tzv. quishing. Riziko je vyššie, ak nevidíte cieľovú adresu pred otvorením.",
+                  "tip": "Pri platbách, parkovaní, doručení zásielok a pracovných prihláseniach kontrolujte, kam QR kód smeruje."
+            },
+            // 23
+            {
+                  "q": "Ak správa vyvoláva strach, časový tlak alebo hrozbu zablokovania účtu, je to dôvod spozornieť.",
+                  "correct": true,
+                  "e": "Sociálne inžinierstvo často pracuje s tlakom: zaplať hneď, over účet, inak prídeš o službu, riaditeľ to potrebuje okamžite, kuriér čaká. Cieľom je obísť bežné overovanie.",
+                  "tip": "Spomaľte. Overenie cez oficiálny kanál je lepšie než rýchla reakcia na podvod. Ak obídete bezpečnostné opatrenia kvôli urgencii, zodpovednosť je na Vás."
+            },
+            // 24
+            {
+                  "q": "Pracovné dokumenty si môžem posielať na súkromný e-mail, ak je to rýchlejšie.",
+                  "correct": false,
+                  "e": "Súkromný e-mail nemusí spĺňať pravidlá organizácie pre ochranu údajov, archiváciu, prístup, šifrovanie alebo audit. Môže to viesť k úniku informácií a strate kontroly nad dokumentmi.",
+                  "tip": "Používajte schválené pracovné nástroje, aj keď sú niekedy menej pohodlné."
+            },
+            // 25
+            {
+                  "q": "Ak som omylom poslal citlivý súbor nesprávnemu adresátovi, najlepšie je čakať, či sa niekto ozve.",
+                  "correct": false,
+                  "e": "Odoslanie citlivých údajov nesprávnej osobe treba riešiť rýchlo. Čakanie môže zhoršiť dopad a skomplikovať zákonné alebo interné povinnosti organizácie.",
+                  "tip": "Nahláste čo sa stalo, komu bol súbor odoslaný, kedy a aké údaje obsahoval."
+            },
+            // 26
+            {
+                  "q": "Antivírus a spam filter zachytia všetko, čo je nebezpečné.",
+                  "correct": false,
+                  "e": "Bezpečnostné nástroje znižujú riziko, ale nezachytia všetko. Útočníci menia techniky, používajú legitímne služby, kompromitované účty a presvedčivé texty. Preto sú dôležité aj používatelia a proces nahlasovania.",
+                  "tip": "To, že správa prešla filtrom, ešte neznamená, že je bezpečná."
+            },
+            // 27
+            {
+                  "q": "Keď si nie som istý, či ide o podvod, je bezpečnejšie overiť správu cez oficiálny kontakt než cez kontakt uvedený v podozrivej správe.",
+                  "correct": true,
+                  "e": "Podvodná správa často obsahuje vlastné telefónne číslo, odkaz alebo kontaktný e-mail. Overenie má prebehnúť cez známy a nezávislý kanál: oficiálnu stránku, interný adresár alebo už uložený kontakt.",
+                  "tip": "Nekopírujte slepo čísla a odkazy z podozrivej komunikácie."
+            },
+            // 28
+            {
+                  "q": "Ak je podozrivá správa poslaná z reálnej adresy kolegu, nemôže ísť o útok.",
+                  "correct": false,
+                  "e": "Účet kolegu môže byť kompromitovaný alebo môže ísť o sfalšovaného odosielateľa. Aj správa z dôveryhodne vyzerajúcej adresy môže žiadať neštandardný postup, platbu, otvorenie prílohy alebo zadanie hesla.",
+                  "tip": "Pri neobvyklej požiadavke overte vec iným kanálom, napríklad telefonicky."
+            },
+            // 29
+            {
+                  "q": "Ak používam služobný notebook doma, stále sa na mňa vzťahujú pravidlá organizácie.",
+                  "correct": true,
+                  "e": "Služobné zariadenie a pracovné účty zostávajú súčasťou pracovného prostredia aj mimo kancelárie. Platí opatrnosť pri Wi-Fi, zdieľaní zariadenia, inštalovaní softvéru a práci s dokumentmi.",
+                  "tip": "Služobné zariadenie nepoužívajte ako rodinný počítač."
+            },
+            // 30
+            {
+                  "q": "Najlepšia reakcia na chybu je zamlčať ju, aby z nej nebol problém. Podozrivý mail alebo súbor odstrániť z disku.",
+                  "correct": false,
+                  "e": "Pri kyberbezpečnosti je včasné priznanie chyby často kľúčové. Chyby robíme všetci, aj keď sa môžete stretnúť s tvrdením, že to tak nie je (je to lož). Kliknutie, odoslanie súboru, zadanie hesla alebo schválenie MFA výzvy sa dá riešiť lepšie v prvých minútach než po dňoch.",
+                  "tip": "Hlásenie chyby nie je priznanie viny. Je to spôsob, ako znížiť dopad a je to prejavom zodpovednosti a zrelosti. Tiež nechcete, aby s Vašim objednaným balíkom zo skla za ťažko zarobené peniaze niekto nakladal nezodpovedne a prišiel Vám poškodený."
+            }
+      ]
+},
     1: {
       id: 1,
       title: "Kyberbezpe\u010dnostn\u00e1 hra \u2013 Fakt alebo M\u00fdtus | Vl\u00e1dna jednotka CSIRT",
@@ -936,10 +1155,10 @@
 
     function getStoredLevel() {
       try {
-        const level = Number(localStorage.getItem(ACTIVE_LEVEL_KEY) || "1");
-        return LEVELS[level] ? level : 1;
+        const level = Number(localStorage.getItem(ACTIVE_LEVEL_KEY) || "0");
+        return LEVELS[level] ? level : 0;
       } catch (e) {
-        return 1;
+        return 0;
       }
     }
 
@@ -1215,6 +1434,7 @@
       select.innerHTML = "";
 
       const entries = [
+        { id: 0, label: "0 – Laik" },
         { id: 1, label: "1 – Začiatočník" },
         { id: 2, label: "2 – Mierne pokročilý" },
         { id: 3, label: "3 – Pokročilý" }
