@@ -724,7 +724,7 @@
         {
           q: "Ak organizácia nemá evidenciu aktív (asset inventory), je stále možné spoľahlivo zabezpečiť riadenie zraniteľností (angl. vulnerability management) a riadenie záplat (angl. patch management).",
           correct: false,
-          e: "Bez inventára organizácie nemôťe vedieť, aké aktíva vlastne má, ktoré aktíva sú exponované a čo treba prioritne chrániť a opravovať. To zvyšuje riziko neoprávneného prístupu na niektorý z kľúčových systémov, zverejnenia citlivých informácií a odstávení systému.",
+          e: "Bez inventára organizácie nemôže vedieť, aké aktíva vlastne má, ktoré aktíva sú exponované a čo treba prioritne chrániť a opravovať. To zvyšuje riziko neoprávneného prístupu na niektorý z kľúčových systémov, zverejnenia citlivých informácií a odstávení systému.",
           tip: "Nie je to raketová veda, začnite aspoň minimálnym inventárom: verejne dostupné služby, kritické servery a pracovné stanice a na skenovanie perimetra sa pripojte do služby Achilles."
         },
         // 27
@@ -835,7 +835,7 @@
         },
         // 12
         {
-          q: "C snippet: `memcpy(dst, src, len);` je bezpečný, `len` ak pochádza z HTTP hlavičky a klientovi dôveruje interný proxy.",
+          q: "C snippet: `memcpy(dst, src, len);` je bezpečný, len ak pochádza z HTTP hlavičky a klientovi dôveruje interný proxy.",
           correct: false,
           e: "Zdroj hodnoty nie je zárukou bezpečnosti. Ak `len` nie je validované voči reálnej veľkosti tzv. buffer-u, ide o klasické riziko pretečenia alebo čítania mimo vyhradenú pamäť, ktoré je príčinou mnohých zraniteľností."
         },
@@ -1178,7 +1178,7 @@
                   "q": "Ak po kompromitácii webu iba nahrám čistú kópiu súborov, incident je vyriešený.",
                   "correct": false,
                   "e": "Obnova súborov nerieši pôvodný vektor útoku, ukradnuté prihlasovacie údaje, perzistenciu v databáze, nové účty, webshell v inom adresári, škodlivý cron ani zmeny konfigurácie. Útočník sa cez ten istý vektor často vráti.",
-                  "tip": "Najprv zachovať dôkazy, izolovať alebo obmedziť dopad, určiť vstupný vektor, odstrániť príčinu, rotovať tajomstvá, až potom obnovovať a overovať."
+                  "tip": "Najprv zachovať dôkazy, izolovať alebo obmedziť dopad, určiť vstupný vektor, odstrániť príčinu, meniť heslá, tokeny alebo kľúče, až potom obnovovať a overovať."
             },
             // 4
             {
@@ -1251,21 +1251,21 @@
             },
             // 14
             {
-                  "q": "NetBox alebo podobný nástroj môže pomôcť ako zdroj pravdy pre sieťové aktíva, IP adresy a služby, ale iba ak ho procesy udržiavajú aktuálny.",
+                  "q": "NetBox alebo podobný nástroj môže slúžiť ako centrálny zdroj informácií o sieťových aktívach, IP adresy a služby, ale iba ak ho procesy udržiavajú aktuálny.",
                   "correct": true,
                   "e": "NetBox je použiteľný ako zdroj pravdy pre infraštruktúru, IPAM/DCIM a automatizáciu, ale sám nevyrieši disciplínu tímu. Ak sa nové servery, subdomény a IP adresy do inventára nedostanú, nástroj bude len krajšia tabuľka bez pridanej hodnoty pre organizáciu. Pozri aj <a href='https://github.com/netbox-community/netbox' target='_blank'>NetBox</a>.",
                   "tip": "Inventár napojte na tzv. provisioning, DNS, monitoring, skenovanie a odovzdávacie protokoly dodávateľov."
             },
             // 15
             {
-                  "q": "Automatizované získavanie inventára agentmi, z CMDB, z cloudu a autorizovaným skenovaním znižuje riziko, že organizácia zabudne na systém.",
+                  "q": "Automatizované získavanie inventára agentmi, z CMDB, z cloudu a autorizovaným skenovaním znižuje riziko, že organizácia niektoré systémy prehliadne alebo ich nebude evidovať.",
                   "correct": true,
-                  "e": "Pre Configuratuin Management Database (CMDB) platí, že ručný inventár rýchlo starne. Agenti pre riadenie aktív, exporty z virtualizácie a cloudu, monitoring, zoznam DNS domén a interné skeny napríklad nmapom pomáhajú odhaliť rozdiel medzi tým, čo si tím myslí, že má, a tým, čo je reálne spustené.",
+                  "e": "Pre Configuration Management Database (CMDB) platí, že ručný inventár rýchlo starne. Agenti pre riadenie aktív, exporty z virtualizácie a cloudu, monitoring, zoznam DNS domén a interné skeny napríklad nmapom pomáhajú odhaliť rozdiel medzi tým, čo si tím myslí, že má, a tým, čo je reálne spustené.",
                   "tip": "Skenovanie robte výhradne so schválením vlastníka aktív, známym rozsahom, časovým oknom a kontaktom pre prípad výpadku alebo falošného poplachu."
             },
             // 16
             {
-                  "q": "Nmap sken cudzej alebo neodsúhlasenej siete je bežná administrátorská rutina a netreba ho povoľovať.",
+                  "q": "Nmap sken cudzej alebo neodsúhlasenej siete je bežná administrátorská rutina a nevyžaduje povolenie.",
                   "correct": false,
                   "e": "Skenovanie môže byť vnímané ako neoprávnená aktivita, môže spustiť bezpečnostné mechanizmy alebo spôsobiť prevádzkový problém. V administrátorskej praxi má mať jasný rozsah, oprávnenie, čas, zodpovednú osobu a komunikačný kanál.",
                   "tip": "Skenujte vlastné a schválené rozsahy. Pri službách VJ CSIRT je súčinnosť a aktuálny zoznam aktív zásadná."
@@ -1322,7 +1322,7 @@
             {
                   "q": "Súbory .env, zálohy databáz, archívy webu, .git adresár a privátne kľúče vo web root-e sú kritické nálezy.",
                   "correct": true,
-                  "e": "Takéto súbory môžu obsahovať heslá, tokeny, prístupy do databázy, zdrojové kódy alebo interné informácie. Ak sú dostupné cez web alebo ich útočník získal po kompromitácii, treba rotovať tajomstvá a preveriť dopad. Pozri <a href='https://csirt.sk/nginx' target='_blank'>NGINX hardening</a> a <a href='https://csirt.sk/apache' target='_blank'>Apache hardening</a>",
+                  "e": "Takéto súbory môžu obsahovať heslá, tokeny, prístupy do databázy, zdrojové kódy alebo interné informácie. Ak sú dostupné cez web alebo ich útočník získal po kompromitácii, je potrebné pravidelne meniť heslá, tokeny a kľúče a preveriť dopad. Pozri <a href='https://csirt.sk/nginx' target='_blank'>NGINX hardening</a> a <a href='https://csirt.sk/apache' target='_blank'>Apache hardening</a>",
                   "tip": "V hardeningu webservera blokujte citlivé súbory a cesty."
             },
             // 25
