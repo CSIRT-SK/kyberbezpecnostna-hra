@@ -1148,7 +1148,247 @@
           tip: "Resetujte kompromitované účty, invalidujte relácie/tokeny a overte MFA nastavenia a neničte dôkazy výmazom podozrivých mailov, súboro, inštaláciou nového zariadenia a pod."
         }
       ]
-    }
+    },
+    5: {
+      "id": 5,
+      "title": "Kyberbezpečnostná hra 5 – IT administrátor | Vládna jednotka CSIRT",
+      "brandTitle": "Kyberbezpečnostná hra 5 – IT administrátor | Vládna jednotka CSIRT",
+      "brandSubtitle": "Administrátorská úroveň • incidenty, webhosting, CMS, logy, riadenie aktív a služby VJ CSIRT",
+      "heroTitle": "Úroveň 5: praktické scenáre pre IT administrátorov",
+      "heroText": "Kliknite na políčko, rozhodnite, či ide o fakt alebo mýtus, a prejdite si situácie z praxe: kompromitované weby, vlastné šablóny, nedostatočné logy, opakovaná kompromitácia, riadenie aktív a služby Achilles, Ares a Kyberaréna.",
+      "heroLinksHtml": "Táto úroveň je pre správcov, ktorí potrebujú mať jasno v tom, čo je prevencia, čo je incident response a kedy využiť <a href='https://csirt.sk/registracia-achilles.html' target='_blank' rel='noopener noreferrer'>Achilles</a>, <a href='https://csirt.sk/registracia-ares.html' target='_blank' rel='noopener noreferrer'>Ares</a>, <a href='https://csirt.sk/registracia-kyberarena.html' target='_blank' rel='noopener noreferrer'>Kyberarénu</a> a <a href='https://csirt.sk/sluzby.html' target='_blank' rel='noopener noreferrer'>katalóg služieb VJ CSIRT</a>.",
+      "hidden": false,
+      "questions": [
+            // 1
+            {
+                  "q": "Ak sú jadro CMS a pluginy aktuálne, vlastná téma alebo šablóna už nemôže byť vstupným vektorom útoku.",
+                  "correct": false,
+                  "e": "Aktualizovaný WordPress, Drupal alebo iný CMS nerieši chyby vo vlastnom kóde. Vlastná téma môže obsahovať staré knižnice, nevalidovaný vstup, nebezpečné nahrávanie súborov, zraniteľné AJAX koncové body alebo priame volanie systémových príkazov. VJ CSIRT publikuje aj metodiku <a href='https://csirt.sk/wordpress' target='_blank'>WordPress hardening</a>, kde je jasné, že bezpečnosť CMS nie je iba otázka aktualizácie pluginov.",
+                  "tip": "Pri incidente nehodnoťte len zoznam pluginov. Skontrolujte aj vlastnú tému, child theme, mu-plugins, composer/npm závislosti, upload adresáre, cron a databázu."
+            },
+            // 2
+            {
+                  "q": "Staré jQuery vo vlastnej téme je len kozmetický problém frontendu a administrátor ho nemusí riešiť.",
+                  "correct": false,
+                  "e": "Staré frontendové knižnice môžu zvyšovať riziko XSS, obchádzania validácií alebo zneužitia starých komponentov. Samotné staré jQuery zvyčajne nie je automaticky RCE, ale je to signál, že vlastná šablóna alebo aplikácia nemá riadený životný cyklus. Ak je súčasne zle spracovaný vstup, vyhľadávanie, upload alebo template rendering na serveri, môže byť dopad výrazne vážnejší.",
+                  "tip": "V inventári aplikácie evidujte aj frontendové a build závislosti. Nie je to iba dizajn."
+            },
+            // 3
+            {
+                  "q": "Ak po kompromitácii webu iba nahrám čistú kópiu súborov, incident je vyriešený.",
+                  "correct": false,
+                  "e": "Obnova súborov nerieši pôvodný vektor útoku, ukradnuté prihlasovacie údaje, perzistenciu v databáze, nové účty, webshell v inom adresári, škodlivý cron ani zmeny konfigurácie. Útočník sa cez ten istý vektor často vráti.",
+                  "tip": "Najprv zachovať dôkazy, izolovať alebo obmedziť dopad, určiť vstupný vektor, odstrániť príčinu, rotovať tajomstvá, až potom obnovovať a overovať."
+            },
+            // 4
+            {
+                  "q": "Výmaz súborov útočníka pred ich skopírovaním a zaevidovaním môže poškodiť vyšetrovanie incidentu.",
+                  "correct": true,
+                  "e": "Súbory útočníka, ich časové pečiatky, cesty, vlastníci, haše, obsah a väzby na logy môžu byť kľúčové pre určenie priebehu incidentu. Ak ich administrátor okamžite zmaže, zničí časť dôkazov a komplikuje určenie vektora útoku.",
+                  "tip": "Podozrivé artefakty najprv skopírujte bezpečným spôsobom, zaevidujte čas, cestu, vlastníka, oprávnenia a hash. Až potom rozhodujte o odstránení."
+            },
+            // 5
+            {
+                  "e": "Praktický minimálny postup pri kompromitovanom webe: zaistiť dôkazy, obmedziť prístup útočníka, uložiť relevantné logy, identifikovať vstupný vektor, skontrolovať perzistenciu, zmeniť heslá a tokeny, opraviť príčinu, obnoviť službu a overiť, že sa útok neopakuje. Ak organizácia potrebuje pomoc, postupujte podľa <a href='https://csirt.sk/sluzby.html' target='_blank'>katalógu služieb VJ CSIRT</a>.",
+                  "correct": null,
+                  "tip": "Nestačí, že web znovu funguje. Bez odstránenia príčiny máte iba prestávku medzi dvoma kompromitáciami."
+            },
+            // 6
+            {
+                  "q": "Týždeň staré logy zo zdieľaného hostingu sú pri riešení čerstvého incidentu často nedostatočné.",
+                  "correct": true,
+                  "e": "Ak logy nepokrývajú čas kompromitácie, neobsahujú potrebné polia alebo sú už rotované, rekonštrukcia útoku je neistá. Pri webovom incidente sú dôležité najmä prístupové logy (angl. access log), error logy, aplikačné logy, logy reverzného proxy/WAF, autentifikačné logy, zmeny súborov a podľa situácie aj databázové alebo administrátorské logy hostingu.",
+                  "tip": "Retenciu a dostupnosť logov riešte vopred v zmluve, SLA alebo technických požiadavkách na hosting."
+            },
+            // 7
+            {
+                  "q": "Keď hosting neposkytuje použiteľné logy, je to len problém hostingu a správca systému už nemá čo urobiť.",
+                  "correct": false,
+                  "e": "Je dôležité overiť si služby a funkcie, ktoré poskytuje hosting, keďže môže znážiť schopnosť reagovať. Riziko svojej služby, ale stale vlastní organizácia. Správca má riešiť retenciu logov, monitoring zmien, zálohy, WAF/proxy logy, vlastné aplikačné logovanie alebo presun služby na prostredie, s rozšírenými možnosťami.",
+                  "tip": "Hosting, ktorý nevie dodať logy, izoláciu, zálohy a základnú súčinnosť, nie je vhodný pre službu s reálnou zodpovednosťou."
+            },
+            // 8
+            {
+                  "q": "Služba Achilles je vhodná na pravidelné odhaľovanie známych zraniteľností a verejne dostupných služieb na perimetri organizácie.",
+                  "correct": true,
+                  "e": "Achilles je služba (nielen) vyhľadávania zraniteľností z pohľadu aktéra hrozieb z verejného internetu. Pomáha pri pravidelnom odhaľovaní známych zraniteľností, verejných portov, služieb, oznamovaní známych únikov hesiel, a pri odosielaní reportov správcom. Detailné hodnotenie zistených zraniteľností sa rieši so súhlasom správcu. Viac: <a href='https://csirt.sk/registracia-achilles.html' target='_blank'>Registrácia Achilles</a>.",
+                  "tip": "Na to, aby služba Achilles priniesla želaný efekt, musia byť kontakty a aktíva pravidelne aktualizované organizáciou. Zabudnutý systém sa nedá efektívne chrániť."
+            },
+            // 9
+            {
+                  "q": "Služba Achilles nahrádza patch management, správu konfigurácií a opravu zraniteľností u dodávateľa.",
+                  "correct": false,
+                  "e": "Služba Achilles vie upozorniť na zraniteľnosti a verejne dostupné služby, ale neopravuje systémy za organizáciu. Riadenie záplat, konfigurácie, zmena architektúry a odstránenie zraniteľností zostávajú zodpovednosťou organizácie a jej dodávateľov.",
+                  "tip": "Doručený report bez reakcie vlastníka aktív, termínu opravy a následného overenia nasadenia opravy predstavuje len dokument, nie skutočné bezpečnostné opatrenie."
+            },
+            // 10
+            {
+                  "q": "Neinvazívny sken perimetra zvyčajne neodhalí všetky chyby vlastnej webovej aplikácie, autentifikované časti a biznis logiku.",
+                  "correct": true,
+                  "e": "Automatizované skenovanie je užitočné, ale má hranice. Chyby vo vlastnom kóde, autentifikované funkcionality, nesprávne nastavené oprávnenia, nebezpečné nahrávania súborov alebo logické chyby často vyžadujú manuálne overenie a znalosť kontextu. Na detailné hodnotenie zraniteľností na požiadanie organizácie slúži napríklad služba <a href='https://csirt.sk/registracia-ares.html' target='_blank'>Ares</a>.",
+                  "tip": "Sken zraniteľností a penetračný test sú rôzne nástroje. Navzájom sa dopĺňajú."
+            },
+            // 11
+            {
+                  "q": "Služba Ares je relevantná, ak organizácia potrebuje penetračný test webovej aplikácie, externý penetračný test infraštruktúry alebo bezpečnostný audit konfigurácie.",
+                  "correct": true,
+                  "e": "Služba Ares poskytuje hodnotenie zraniteľností formou penetračného testu a výstupom je report so zistenými zraniteľnosťami, miestom výskytu zraniteľnosti, príkladom možného zneužitia a odporúčanými opatreniami. VJ CSIRT zároveň zdôrazňuje, že je možné vykonať aj opätovné testovanie po oprave. Viac: <a href='https://csirt.sk/registracia-ares.html' target='_blank'>Registrácia Ares</a>.",
+                  "tip": "Pri žiadosti o Ares pripravte rozsah, kontakty, testovacie účty, časové okno, IP adresy, domény a osobu, ktorá vie rozhodovať."
+            },
+            // 12
+            {
+                  "q": "VJ CSIRT môže kedykoľvek vykonať invazívne testovanie systému organizácie bez jej žiadosti, ak má podozrenie na zraniteľnosť.",
+                  "correct": false,
+                  "e": "Invazívne hodnotenie alebo posúdenie bezpečnosti informačných technológií sa viaže na žiadosť orgánu riadenia podľa § 23a ods. 1 písm. b) zákona č. 95/2019 Z. z. V praxi to znamená, že organizácia musí o takúto súčinnosť požiadať a pripraviť rozsah a podmienky. Pozri: <a href='https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2019/95/#paragraf-23a.odsek-1.pismeno-b' target='_blank'>§ 23a ods. 1 písm. b)</a>.",
+                  "tip": "Nečakajte, že penetračný test vznikne sám od seba. Musí existovať žiadosť, rozsah, súhlas a kontakty."
+            },
+            // 13
+            {
+                  "q": "Základom riadenia zraniteľností je vedieť, aké aktíva organizácia má, komu patria a kde sú dostupné.",
+                  "correct": true,
+                  "e": "Bez inventára aktív neviete, čo skenovať, aké opravy je potrebné nasadiť, ktoré systémy môžete vypnúť, čo patrí dodávateľovi, čo je verejne dostupné a čo je kritické pre organizáciu. Riadenie aktív je predpoklad pre Achilles, patch management, incident response aj rozhodovanie o prioritách. V tomto prípade je možné využiť aj funkcionality <a href='https://viskb.csirt.sk' target='_blank'>VISKB</a>",
+                  "tip": "Minimálny inventár: domény, subdomény, verejné IP, servery, služby, vlastníci, dodávatelia, technické kontakty, kritickosť, umiestnenie logov a spôsob obnovy."
+            },
+            // 14
+            {
+                  "q": "NetBox alebo podobný nástroj môže pomôcť ako zdroj pravdy pre sieťové aktíva, IP adresy a služby, ale iba ak ho procesy udržiavajú aktuálny.",
+                  "correct": true,
+                  "e": "NetBox je použiteľný ako zdroj pravdy pre infraštruktúru, IPAM/DCIM a automatizáciu, ale sám nevyrieši disciplínu tímu. Ak sa nové servery, subdomény a IP adresy do inventára nedostanú, nástroj bude len krajšia tabuľka bez pridanej hodnoty pre organizáciu. Pozri aj <a href='https://github.com/netbox-community/netbox' target='_blank'>NetBox</a>.",
+                  "tip": "Inventár napojte na tzv. provisioning, DNS, monitoring, skenovanie a odovzdávacie protokoly dodávateľov."
+            },
+            // 15
+            {
+                  "q": "Automatizované získavanie inventára agentmi, z CMDB, z cloudu a autorizovaným skenovaním znižuje riziko, že organizácia zabudne na systém.",
+                  "correct": true,
+                  "e": "Pre Configuratuin Management Database (CMDB) platí, že ručný inventár rýchlo starne. Agenti pre riadenie aktív, exporty z virtualizácie a cloudu, monitoring, zoznam DNS domén a interné skeny napríklad nmapom pomáhajú odhaliť rozdiel medzi tým, čo si tím myslí, že má, a tým, čo je reálne spustené.",
+                  "tip": "Skenovanie robte výhradne so schválením vlastníka aktív, známym rozsahom, časovým oknom a kontaktom pre prípad výpadku alebo falošného poplachu."
+            },
+            // 16
+            {
+                  "q": "Nmap sken cudzej alebo neodsúhlasenej siete je bežná administrátorská rutina a netreba ho povoľovať.",
+                  "correct": false,
+                  "e": "Skenovanie môže byť vnímané ako neoprávnená aktivita, môže spustiť bezpečnostné mechanizmy alebo spôsobiť prevádzkový problém. V administrátorskej praxi má mať jasný rozsah, oprávnenie, čas, zodpovednú osobu a komunikačný kanál.",
+                  "tip": "Skenujte vlastné a schválené rozsahy. Pri službách VJ CSIRT je súčinnosť a aktuálny zoznam aktív zásadná."
+            },
+            // 17
+            {
+                  "q": "Neznáme zariadenie alebo služba v sieti je automaticky iba zabudnutý testovací server, nie bezpečnostný problém.",
+                  "correct": false,
+                  "e": "Môže ísť o tzv. shadow IT, zabudnutý systém dodávateľa, testovaciu inštanciu s produkčnými dátami, ale aj o zariadenie útočníka alebo perzistenciu po incidente. Neznáme aktívum je najprv nález, ktorý treba zaradiť a overiť.",
+                  "tip": "Pri neznámom aktíve riešte vlastníka, účel, sieťové spojenia, účty, logy, čas vzniku a dôvod, prečo nebolo v inventári."
+            },
+            // 18
+            {
+                  "e": "Riadenie aktív nie je administratívny luxus. Je to podmienka a vstup do procesov kybernetickej bezpečnosti. Keď neviete, čo máte, neviete povedať, čo bolo zasiahnuté, čo treba vypnúť, čo treba obnoviť a ktoré zraniteľnosti sa vás týkajú. Útočník inventár nepotrebuje, stačí mu nájsť jednu zabudnutú službu.",
+                  "correct": null,
+                  "tip": "Začnite malým inventárom verejne dostupných služieb a kritických systémov. Potom ho postupne automatizujte."
+            },
+            // 19
+            {
+                  "q": "Administrátorské rozhrania, phpMyAdmin, staging subdomény a testovacie inštancie patria do inventára rovnako ako produkčné služby.",
+                  "correct": true,
+                  "e": "Útočník nerozlišuje, či je služba produkčná, testovacia alebo dočasná. Ak je dostupná a zraniteľná, môže byť vstupným bodom pre útočníka. Testovacie prostredia často bývajú slabšie zabezpečené a pritom obsahujú reálne dáta alebo prístupové údaje.",
+                  "tip": "Tzv. staging a admin rozhrania obmedzte napríklad prostredníctvom mechanizmu allowlist, VPN, MFA s jasnou retenciou. Dočasné systémy musia mať dátum zrušenia a mechanizmus na zrušenie."
+            },
+            // 20
+            {
+                  "q": "Web Application Firewall môže pomôcť, ale nenahrádza opravu zraniteľnej aplikácie alebo vlastnej témy.",
+                  "correct": true,
+                  "e": "WAF je kompenzačné opatrenie, nie náhrada bezpečného vývoja. Môže znížiť riziko a získať čas, ale neodstráni chybný kód, nesprávne nastavené oprávnenia, únik tajomstiev ani perzistenciu útočníka.",
+                  "tip": "WAF pravidlá dokumentujte, monitorujte falošne pozitívne nálezy a zároveň opravte primárnu príčinu nálezov."
+            },
+            // 21
+            {
+                  "q": "Obnova zo zálohy automaticky odstráni zraniteľnosť a všetku perzistenciu.",
+                  "correct": false,
+                  "e": "Záloha môže obsahovať rovnakú zraniteľnú verziu aplikácie, rovnaké heslá, rovnakú škodlivú zmenu v databáze alebo webshell, ktorý vznikol ešte pred dátumom zálohy. Obnova je len časť reakcie.",
+                  "tip": "Pred obnovou poznajte bod kompromitácie. Po obnove opravte vektor, rotujte tajomstvá a skontrolujte databázu, účty a plánované úlohy. Ak vektor neviete identifikovať, je potrebné vykonať detailné hodnotenie zraniteľností."
+            },
+            // 22
+            {
+                  "q": "Perzistencia vo webovom incidente môže byť aj v databáze, cron úlohách, administrátorských účtoch, .htaccess, wp-config.php alebo v upravenej téme.",
+                  "correct": true,
+                  "e": "Útočník sa nemusí spoliehať iba na jeden webshell. Perzistencia môže byť v databázových záznamoch, pluginovej konfigurácii, naplánovaných úlohách, nových používateľoch, škodlivých include súboroch alebo v konfigurácii webservera.",
+                  "tip": "Kontrola iba adresára s uploadmi je nedostatočná. Skontrolujte aj databázu, účty, plánovače, konfigurácie a zmeny v repozitári."
+            },
+            // 23
+            {
+                  "q": "Vyhľadanie webshellov antivírusom alebo jedným grep príkazom stačí na vyhlásenie systému za čistý.",
+                  "correct": false,
+                  "e": "Jedna kontrola nepreukáže absenciu útočníka. Potrebujete porovnať zmeny voči známemu dobrému stavu, skontrolovať logy, účty, oprávnenia, tajomstvá, plánované úlohy, databázu a sieťové spojenia. Pri vážnom incidente treba zvážiť forenznú analýzu.",
+                  "tip": "Formulujte záver opatrne: čo ste overili, akými dátami a aké slepé miesta zostali, aby bolo možné tvrdenia overiť."
+            },
+            // 24
+            {
+                  "q": "Súbory .env, zálohy databáz, archívy webu, .git adresár a privátne kľúče vo web root-e sú kritické nálezy.",
+                  "correct": true,
+                  "e": "Takéto súbory môžu obsahovať heslá, tokeny, prístupy do databázy, zdrojové kódy alebo interné informácie. Ak sú dostupné cez web alebo ich útočník získal po kompromitácii, treba rotovať tajomstvá a preveriť dopad. Pozri <a href='https://csirt.sk/nginx' target='_blank'>NGINX hardening</a> a <a href='https://csirt.sk/apache' target='_blank'>Apache hardening</a>",
+                  "tip": "V hardeningu webservera blokujte citlivé súbory a cesty."
+            },
+            // 25
+            {
+                  "q": "Automatické aktualizácie operačného systému vyriešia aj aktualizácie WordPress pluginov, tém, Composer balíkov a Node.js závislostí.",
+                  "correct": false,
+                  "e": "Automatické aktualizácie OS balíkov sú dôležité, ale nepokrývajú celú aplikačnú vrstvu. Metodika VJ CSIRT k <a href='https://csirt.sk/unattended-upgrades' target='_blank'>unattended-upgrades</a> opisuje bezpečnostné záplaty systémových balíkov. Pozor, pluginy, témy, PHP a JavaScript závislosti potrebujú vlastný proces.",
+                  "tip": "Riadenie zraniteľností rozdeľte na OS, webový server, runtime, CMS, pluginy, vlastný kód a jeho závislosti."
+            },
+            // 26
+            {
+                  "q": "Hardening softvéru NGINX, Apache a WordPress má byť súčasťou prevádzky a akceptácie systému, nie až posledný krok po incidente.",
+                  "correct": true,
+                  "e": "Hardening znižuje pravdepodobnosť incidentu a jeho dopad. Metodiky VJ CSIRT pokrývajú napríklad bezpečnostné hlavičky, šifrovanie prostredníctvom TLS, logovanie, obmedzenie prístupu, blokovanie citlivých ciest, aktualizácie a audit. Pozri <a href='https://csirt.sk/nginx' target='_blank'>NGINX</a>, <a href='https://csirt.sk/wordpress' target='_blank'>WordPress</a> a <a href='https://csirt.sk/apache' target='_blank'>Apache hardening</a>.",
+                  "tip": "Pridajte hardening do odovzdávacieho protokolu od dodávateľa. Inak sa stane dobrovoľnou činnosťou, ktorá sa odloží."
+            },
+            // 27
+            {
+                  "q": "Zdieľané administrátorské účty dodávateľa bez MFA sú prijateľné, ak dodávateľovi dôverujeme.",
+                  "correct": false,
+                  "e": "Dôvera k dodávateľovi nenahrádza auditovateľnosť. Zdieľané účty znemožňujú určiť, kto vykonal zmenu, zvyšujú riziko úniku hesla a komplikujú reakciu na incident. Správna prax je individuálny účet, MFA, minimálne oprávnenia, časové obmedzenie a logovanie prihlásení.",
+                  "tip": "Dodávateľské prístupy evidujte v inventári a pravidelne revidujte. Po incidente rotujte heslá a tokeny, nie iba súbory webu."
+            },
+            // 28
+            {
+                  "q": "Technické analýzy objavených zraniteľností môžu správcovi pomôcť pochopiť modus operandi útočníkov a typické chyby vo vývoji.",
+                  "correct": true,
+                  "e": "Sekcia <a href='https://csirt.sk/zranitelnosti.html' target='_blank'>Objavené zraniteľnosti</a> obsahuje technické analýzy zraniteľností známych softvérových produktov, ktoré objavili odborníci z VJ CSIRT. Pre administrátora a vývojára je to užitočný zdroj: ukazuje, ako vznikajú chyby, ako sa dajú zneužiť a prečo nestačí všeobecná veta „máme aktualizované pluginy“.",
+                  "tip": "Používajte takéto analýzy ako zdroj informácií a podporný materiál pre interné review, dodávateľské požiadavky a bezpečnostné školenia."
+            },
+            // 29
+            {
+                  "q": "Kyberaréna je vhodná aj pre tímy, ktoré si potrebujú prakticky vyskúšať reakciu na incidenty, nástroje a bezpečnostné nastavenia.",
+                  "correct": true,
+                  "e": "Kyberaréna je výcvikové a školiace stredisko pre zamestnancov štátnej a verejnej správy. Obsahuje praktické tréningy, scenáre incidentov, prácu s nástrojmi a možnosť otestovať kvalitu bezpečnostných nastavení organizácie. Viac: <a href='https://csirt.sk/kyberarena' target='_blank'>Registrácia Kyberaréna</a>.",
+                  "tip": "Ak tím nevie, čo má robiť pri webovej kompromitácii, tréning je lacnejší než improvizácia počas incidentu. A Kyberaréna je navyše poskytovaná bezodplatne."
+            },
+            // 30
+            {
+                  "e": "Služby VJ CSIRT dávajú zmysel ako reťazec: Achilles na pravidelné odhaľovanie známych rizík na perimetri, Ares na penetračné testovanie a bezpečnostné posúdenie, Kyberaréna na tréning schopností, metodiky na hardening a reaktívne služby pri incidente. Prehľad je v <a href='https://csirt.sk/sluzby' target='_blank'>katalógu služieb VJ CSIRT</a>.",
+                  "correct": null,
+                  "tip": "Nečakajte s prevenciou na incident. Po incidente už riešite aj výpadok, tlak vedenia, mediálne riziko a nedostatok času."
+            },
+            // 31
+            {
+                  "q": "Po odstránení zraniteľnosti je rozumné požiadať o opätovné overenie alebo vykonať kontrolu, či oprava nezaviedla nové chyby.",
+                  "correct": true,
+                  "e": "Oprava môže byť neúplná alebo môže zaviesť nové chyby. Pri službe Ares je uvedené, že je možné vykonať aj opätovné testovanie, či boli nálezy opravené a či pri odstraňovaní nevznikli nové zraniteľnosti. Pri automatizovaných nálezoch je možné pracovať aj s opakovaným skenom podľa možností služby.",
+                  "tip": "Ticket „opravené“ nie je dôkaz. Dôkaz je overenie: test, sken, review, logy alebo jasne zdokumentovaný výsledok."
+            },
+            // 32
+            {
+                  "q": "Dobrý incident report má obsahovať aj to, čo nebolo možné overiť, lebo chýbali logy, inventár alebo súčinnosť dodávateľa.",
+                  "correct": true,
+                  "e": "Transparentné slepé miesta sú dôležité. Ak logy chýbali, retencia bola krátka, hosting nedodal údaje alebo aktíva neboli v inventári, treba to uviesť ako zistenie a navrhnúť nápravné opatrenia. Inak sa rovnaký problém zopakuje.",
+                  "tip": "Incident report nemá byť iba popis škody. Má byť podklad pre zmenu procesov, zmlúv, architektúry a prevádzky."
+            },
+            // 33
+            {
+                  "q": "Keď sa incident opakuje cez rovnaký vektor, nejde o nový problém, ale o nedokončenú nápravu pôvodnej príčiny.",
+                  "correct": true,
+                  "e": "Opakovaná kompromitácia rovnakého webu zvyčajne znamená, že sa riešil symptóm, nie príčina. Typicky zostal zraniteľný kód, slabé heslá, perzistencia, starý účet, zlé oprávnenia alebo chýbajúca kontrola dodávateľa.",
+                  "tip": "Po druhom návrate útočníka už nehovorte o smole. Zaveďte kontrolný zoznam nápravy a eskalujte problém na vlastníka služby."
+            }
+      ]
+}
     };
 
     const ACTIVE_LEVEL_KEY = "csirt_game_active_level_v1";
@@ -1440,20 +1680,18 @@
         { id: 3, label: "3 – Pokročilý" }
       ];
 
+      if (unlocked4) {
+        entries.push({ id: 4, label: "4 – Skrytá úroveň" });
+      }
+
+      entries.push({ id: 5, label: "5 – IT administrátor" });
+
       for (const entry of entries) {
         const option = document.createElement("option");
         option.value = String(entry.id);
         option.textContent = entry.label;
         if (entry.id === currentLevelId) option.selected = true;
         select.appendChild(option);
-      }
-
-      if (unlocked4) {
-        const hiddenOption = document.createElement("option");
-        hiddenOption.value = "4";
-        hiddenOption.textContent = "4 – Skrytá úroveň";
-        hiddenOption.selected = currentValue === "4";
-        select.appendChild(hiddenOption);
       }
 
       if (!unlocked4 && currentValue === "4") {
