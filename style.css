@@ -597,3 +597,76 @@ body{
 .ak-unlock-box strong {
     color: var(--ak-navy);
 }
+
+/* ==========================================================================
+   ÚPRAVA – mobilný modal a dynamická výška odpovede
+   Dôvod: zadná strana flip karty bola `position:absolute; inset:0`, takže
+   sa nezapočítala do výšky modalu. Pri dlhých vysvetleniach sa text na
+   mobile orezal. Po otočení teraz výšku určuje zadná strana karty a vnútro
+   dialógu sa dá v prípade potreby posúvať.
+   ========================================================================== */
+
+.ak-modal{
+    overflow-y: auto;
+}
+
+.ak-dialog{
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 28px);
+    max-height: calc(100dvh - 28px);
+}
+
+.ak-dialog-body{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Po otočení nech zadná strana karty určuje výšku obsahu. */
+.ak-flip.flipped .ak-card.front{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.ak-flip.flipped .ak-card.back{
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 220px;
+}
+
+@media (max-width: 480px){
+    .ak-modal{
+        padding: 10px;
+    }
+
+    .ak-dialog{
+        width: 100%;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+    }
+
+    .ak-dialog-body{
+        padding: 10px;
+    }
+
+    .ak-card{
+        padding: 12px;
+    }
+
+    .ak-qtext,
+    .ak-explain{
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    .ak-note{
+        font-size: 12px;
+        line-height: 1.35;
+    }
+}
+/* ========================== KONIEC ÚPRAVY ========================== */
