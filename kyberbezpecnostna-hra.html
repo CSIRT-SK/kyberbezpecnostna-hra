@@ -117,6 +117,16 @@
             </div>
           </div>
         </div>
+
+        <nav class="ak-modal-nav" id="questionNav" aria-label="Navigácia medzi otázkami" hidden>
+          <button class="ak-navbtn" id="btnPrevQuestion" type="button" aria-label="Predchádzajúca otázka">
+            <span class="ak-navicon" aria-hidden="true">←</span>
+          </button>
+          <span class="ak-navstatus" id="questionNavStatus" aria-live="polite">1 / 30</span>
+          <button class="ak-navbtn" id="btnNextQuestion" type="button" aria-label="Nasledujúca otázka">
+            <span class="ak-navicon" aria-hidden="true">→</span>
+          </button>
+        </nav>
       </div>
     </div>
   </div>
@@ -1808,8 +1818,52 @@
     const btnMyth = qs("#btnMyth");
     const btnClose = qs("#btnClose");
     const btnAbout = qs("#btnAbout");
+    const questionNav = qs("#questionNav");
+    const btnPrevQuestion = qs("#btnPrevQuestion");
+    const btnNextQuestion = qs("#btnNextQuestion");
+    const questionNavStatus = qs("#questionNavStatus");
+    const dialogBody = qs(".ak-dialog-body");
     let lastFocus = null;
     let pendingDoneAfterClose = false;
+
+    function updateQuestionNav() {
+      if (!questionNav || !btnPrevQuestion || !btnNextQuestion || !questionNavStatus) return;
+
+      const day = Number(state.activeDay || 0);
+      const hasActiveQuestion = day >= 1 && day <= questionsLen;
+      questionNav.hidden = !hasActiveQuestion;
+      if (!hasActiveQuestion) return;
+
+      const prevDay = day - 1;
+      const nextDay = day + 1;
+      const prevAvailable = prevDay >= 1 && isUnlocked(prevDay);
+      const nextAvailable = nextDay <= questionsLen && isUnlocked(nextDay);
+
+      btnPrevQuestion.disabled = !prevAvailable;
+      btnNextQuestion.disabled = !nextAvailable;
+      btnPrevQuestion.title = prevDay < 1
+        ? "Toto je prvá otázka."
+        : (!isUnlocked(prevDay) ? `Otázka ${prevDay} ešte nie je odomknutá.` : `Prejsť na otázku ${prevDay}`);
+      btnNextQuestion.title = nextDay > questionsLen
+        ? "Toto je posledná otázka."
+        : (!isUnlocked(nextDay) ? `Otázka ${nextDay} ešte nie je odomknutá.` : `Prejsť na otázku ${nextDay}`);
+      questionNavStatus.textContent = `${day} / ${questionsLen}`;
+    }
+
+    function goToQuestion(delta) {
+      const day = Number(state.activeDay || 0);
+      if (!day) return;
+
+      const targetDay = day + delta;
+      if (targetDay < 1 || targetDay > questionsLen) return;
+      if (!isUnlocked(targetDay)) {
+        toast(`Okienko ${targetDay} ešte nie je odomknuté.`, 2200);
+        return;
+      }
+
+      openDay(targetDay);
+    }
+    // KONIEC ÚPRAVY – navigácia medzi otázkami
 
     function openModal() {
       lastFocus = document.activeElement;
@@ -1837,6 +1891,7 @@
       } catch (e) {}
 
       state.activeDay = null;
+      if (questionNav) questionNav.hidden = true;
       qTitleBack.textContent = "";
       setSafeHTML(explainText, "");
       extraTip.textContent = "";
@@ -1926,6 +1981,8 @@
         extraTip.textContent = "";
       }
 
+      updateQuestionNav();
+      if (dialogBody) dialogBody.scrollTop = 0;
       openModal();
     }
 
@@ -2006,6 +2063,8 @@
 
     btnFact.addEventListener("click", () => state.activeDay && showResult(state.activeDay, "fact", false, true));
     btnMyth.addEventListener("click", () => state.activeDay && showResult(state.activeDay, "myth", false, true));
+    btnPrevQuestion.addEventListener("click", () => goToQuestion(-1));
+    btnNextQuestion.addEventListener("click", () => goToQuestion(1));
 
     qs("#levelSelect").addEventListener("change", (e) => {
       const nextLevel = Number(e.target.value || currentLevelId);
@@ -2014,10 +2073,30 @@
 
     btnClose.addEventListener("click", closeModal);
     modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+    // ÚPRAVA – klávesové šípky v modálnom okne
+    window.addEventListener("keydown", (e) => {
+      if (!modal.classList.contains("open")) return;
+
+      if (e.key === "Escape") {
+        closeModal();
+        return;
+      }
+
+      if (!state.activeDay || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToQuestion(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToQuestion(1);
+      }
+    });
+    // KONIEC ÚPRAVY – klávesové šípky
 
     btnAbout.addEventListener("click", () => {
       state.activeDay = null;
+      if (questionNav) questionNav.hidden = true;
       backCard.style.display = "";
       noteLocal.style.display = "none";
       modalTitle.textContent = "Ako to funguje";
