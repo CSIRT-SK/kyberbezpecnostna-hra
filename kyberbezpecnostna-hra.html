@@ -835,7 +835,7 @@
         },
         // 12
         {
-          q: "C snippet: `memcpy(dst, src, len);` je bezpečný, len ak pochádza z HTTP hlavičky a klientovi dôveruje interný proxy.",
+          q: "C snippet: `memcpy(dst, src, len);` je bezpečný, ak parameter `len` pochádza z HTTP hlavičky a klientovi dôveruje interný proxy.",
           correct: false,
           e: "Zdroj hodnoty nie je zárukou bezpečnosti. Ak `len` nie je validované voči reálnej veľkosti tzv. buffer-u, ide o klasické riziko pretečenia alebo čítania mimo vyhradenú pamäť, ktoré je príčinou mnohých zraniteľností."
         },
