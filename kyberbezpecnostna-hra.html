@@ -911,7 +911,7 @@
         },
         // 23
         {
-          q: "Sysmon/PowerShell log: `EventID=4104 ScriptBlockText=IEX (New-Object Net.WebClient).DownloadString(...)` je podozrivý aj bez toho, aby bolo okamžite možné potvrdiť kompromitáciu.",
+          q: "Sysmon/PowerShell log: `EventID=4104 ScriptBlockText=IEX (New-Object Net.WebClient).DownloadString(...)` môžeme označiť za podozrivé správanie systému aj napriek tomu, že nebola zatiaľ potvrdená žiadna kompromitácia.",
           correct: true,
           e: "Je to typický kandidát na hlbšiu triáž: overiť rodičovský proces, používateľa, cieľ komunikácie, následné spustenia a artefakty na disku. Samotný log nie je celý príbeh, ale rozhodne nie je benígny."
         },
