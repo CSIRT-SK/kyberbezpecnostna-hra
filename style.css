@@ -740,3 +740,33 @@ body{
     }
 }
 
+.ak-qtext,
+.ak-explain,
+.ak-note{
+    overflow-wrap: break-word;
+}
+
+.ak-qtext a,
+.ak-explain a,
+.ak-note a{
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ak-qtext code,
+.ak-explain code,
+.ak-note code{
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    vertical-align: baseline;
+}
+
+.ak-qtext pre code,
+.ak-explain pre code,
+.ak-note pre code{
+    max-width: none;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
