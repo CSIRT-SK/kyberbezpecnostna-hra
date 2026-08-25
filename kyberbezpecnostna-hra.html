@@ -614,7 +614,7 @@
         },
         // 9
         {
-          q: "Sken zraniteľností (napr. Achilles) dokáže sám potvrdiť zneužitie zraniteľnosti v produkcii.",
+          q: "Sken zraniteľností (napr. <a href='https://csirt.sk/achilles' target='_blank'>Achilles</a>) dokáže sám potvrdiť zneužitie zraniteľnosti v produkcii.",
           correct: false,
           e: "Sken zraniteľností typicky identifikuje potenciálnu slabinu alebo konfiguráciu. Potvrdenie zneužitia vyžaduje forenznú analýzu, logy, EDR nálezy alebo ďalšie dôkazy.",
           tip: "Ak máte podozrenie na zneužitie, sledujte logy a IOC/IOA, prípadne kontaktujte CSIRT."
@@ -1219,14 +1219,14 @@
             },
             // 8
             {
-                  "q": "Služba Achilles je vhodná na pravidelné odhaľovanie známych zraniteľností a verejne dostupných služieb na perimetri organizácie.",
+                  "q": "<a href='https://csirt.sk/achilles' target='_blank'>Služba Achilles</a> je vhodná na pravidelné odhaľovanie známych zraniteľností a verejne dostupných služieb na perimetri organizácie.",
                   "correct": true,
                   "e": "Achilles je služba (nielen) vyhľadávania zraniteľností z pohľadu aktéra hrozieb z verejného internetu. Pomáha pri pravidelnom odhaľovaní známych zraniteľností, verejných portov, služieb, oznamovaní známych únikov hesiel, a pri odosielaní reportov správcom. Detailné hodnotenie zistených zraniteľností sa rieši so súhlasom správcu. Viac: <a href='https://csirt.sk/registracia-achilles.html' target='_blank'>Registrácia Achilles</a>.",
                   "tip": "Na to, aby služba Achilles priniesla želaný efekt, musia byť kontakty a aktíva pravidelne aktualizované organizáciou. Zabudnutý systém sa nedá efektívne chrániť."
             },
             // 9
             {
-                  "q": "Služba Achilles nahrádza patch management, správu konfigurácií a opravu zraniteľností u dodávateľa.",
+                  "q": "<a href='https://csirt.sk/achilles' target='_blank'>Služba Achilles</a> nahrádza patch management, správu konfigurácií a opravu zraniteľností u dodávateľa.",
                   "correct": false,
                   "e": "Služba Achilles vie upozorniť na zraniteľnosti a verejne dostupné služby, ale neopravuje systémy za organizáciu. Riadenie záplat, konfigurácie, zmena architektúry a odstránenie zraniteľností zostávajú zodpovednosťou organizácie a jej dodávateľov.",
                   "tip": "Doručený report bez reakcie vlastníka aktív, termínu opravy a následného overenia nasadenia opravy predstavuje len dokument, nie skutočné bezpečnostné opatrenie."
@@ -1398,7 +1398,228 @@
                   "tip": "Po druhom návrate útočníka už nehovorte o smole. Zaveďte kontrolný zoznam nápravy a eskalujte problém na vlastníka služby."
             }
       ]
+},
+    // Úroveň 6: MKIB a služby VJ CSIRT
+    6: {
+      "id": 6,
+      "title": "Kyberbezpečnostná hra 6 – MKIB | Vládna jednotka CSIRT",
+      "brandTitle": "Kyberbezpečnostná hra 6 – MKIB | Vládna jednotka CSIRT",
+      "brandSubtitle": "Úroveň MKIB • ako služby VJ CSIRT pomáhajú pri plnení povinností a riadení kybernetickej bezpečnosti ITVS",
+      "heroTitle": "Úroveň 6: MKIB a služby VJ CSIRT",
+      "heroText": "Táto úroveň je určená pre manažérov kybernetickej a informačnej bezpečnosti a zodpovedné osoby vo verejnej správe. Vysvetľuje, kde VJ CSIRT pomáha, čo zostáva zodpovednosťou organizácie a ako služby využiť prakticky.",
+      "heroLinksHtml": "Rámec tejto úrovne je zámerne úzky: pre VJ CSIRT sú kľúčové najmä vybrané časti <a href='https://www.slov-lex.sk/ezbierky-fe/pravne-predpisy/SK/ZZ/2019/95/' target='_blank' rel='noopener noreferrer'>Zákona č. 95/2019 Z. z.</a>, najmä v oblasti ITVS a § 23. <a href='https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2018/69/' target='_blank' rel='noopener noreferrer'>Zákon č. 69/2018 Z. z.</a>, najmä § 15, je v tejto hre použitý len doplnkovo. Praktický prehľad služieb je v <a href='https://csirt.sk/sluzby.html' target='_blank' rel='noopener noreferrer'>katalógu služieb VJ CSIRT</a>. Otázky boli pripravené s pomocou stážistu VJ CSIRT, Saviho.",
+      "hidden": false,
+      "questions": [
+            // 1
+            {
+                  "q": "MKIB môže služby VJ CSIRT používať ako praktickú podporu pri riadení bezpečnosti ITVS, nie ako náhradu vlastnej zodpovednosti organizácie.",
+                  "correct": true,
+                  "e": "VJ CSIRT poskytuje odbornú kapacitu, varovania, odporúčania, metodiky, hodnotenie zraniteľností, podporu pri incidentoch a vybrané bezpečnostné služby. Organizácia však musí mať vlastné procesy, kontakty, evidenciu aktív, rozhodovanie a zodpovednosť za prijaté opatrenia.",
+                  "tip": "Začnite tým, že si v organizácii určíte vlastníkov systémov, technické kontakty, eskalačnú trasu a proces práce s výstupmi služieb VJ CSIRT."
+            },
+            // 2
+            {
+                  "q": "Pre komunikáciu VJ CSIRT s MKIB je najdôležitejšie, aby organizácia mala aktuálne kontaktné údaje a vedela, kto preberá varovania a incidenty.",
+                  "correct": true,
+                  "e": "Ak varovanie skončí v nečítanej schránke alebo u osoby bez mandátu, služba nemá reálny dopad. MKIB má zabezpečiť, aby boli technické, bezpečnostné a eskalačné kontakty aktuálne a aby sa s doručeným varovaním ďalej pracovalo. Pre klientov VJ CSIRT je možné aktualizovať kontakty a aktíva priamo <a href='https://viskb.csirt.sk' target='_blank'>v portáli VISKB</a>",
+                  "tip": "Kontakty revidujte pri každej organizačnej zmene, výmene dodávateľa, zmene domény, migrácii hostingu alebo zmene zodpovednej osoby."
+            },
+            // 3
+            {
+                  "q": "Ak organizácia nevie, aké systémy, domény, IP adresy a služby prevádzkuje, služby VJ CSIRT jej plnohodnotne nenahradia evidenciu aktív.",
+                  "correct": true,
+                  "e": "Bez evidencie aktív sa nedá spoľahlivo určiť, čo má byť chránené, čo má byť skenované, kde sa má vykonať náprava a kto za systém zodpovedá. Služby <a href='https://csirt.sk/achilles' traget='_blank'>Achilles</a>, <a href='https://csirt.sk/ares' traget='_blank'>Ares</a> alebo <a href='https://csirt.sk/hermes' traget='_blank'>Hermes</a> vedia pomôcť, ale nevytvoria interné vlastníctvo systému namiesto organizácie.",
+                  "tip": "Minimálny základ pre evidenciu aktív: verejné IP adresy, domény, webové aj e-mailové, označené kľúčové systémy, ich vlastníci, dodávatelia, aké SLA, logy, zálohy a kontakty na administrátorov."
+            },
+            // 4
+            {
+                  "e": "Úroveň MKIB nie je technický kvíz zo všetkých oblastí kyberbezpečnosti. Cieľom je ukázať, ako môže MKIB využiť <a href='https://csirt.sk/sluzby' target='_blank'>služby VJ CSIRT</a> na pomoc pri riadení rizík, prácu s varovaniami, hodnotenie zraniteľností, incidenty, školenia a metodické usmernenia.",
+                  "correct": null,
+                  "tip": "Otázka pre MKIB nemá byť iba „čo znamená skratka“, ale „čo s tým urobím v organizácii a kto nesie zodpovednosť za nápravu“."
+            },
+            // 5
+            {
+                  "q": "Zapojenie do služby Achilles znamená, že organizácia má vyriešené celé riadenie zraniteľností (angl. vulnerability management) aj riadenie opráv (angl. patch management).",
+                  "correct": false,
+                  "e": "Achilles pomáha identifikovať a komunikovať zraniteľnosti viditeľné najmä z verejného internetu. Nenahrádza interné riadenie zraniteľností, riadenie opráv, evidenciu aktív, rozhodovanie o výnimkách ani kontrolu dodávateľov.",
+                  "tip": "MKIB má zabezpečiť proces: prijať nález, priradiť vlastníka, posúdiť dopad, opraviť, overiť nápravu a evidovať výnimku alebo falošne pozitívny nález v súčinnosti s technickým tímom a v komunikácii so štatutárom."
+            },
+            // 6
+            {
+                  "q": "Výstupy <a href='https://csirt.sk/achilles' target='_blank'>služby Achilles</a> majú byť pre MKIB vstupom do interného procesu riadenia rizík a nápravných opatrení.",
+                  "correct": true,
+                  "e": "Nález bez vlastníka a termínu nápravy je len informácia. Hodnota služby vzniká až vtedy, keď organizácia vie nález zaradiť, priorizovať, zadať nápravu, sledovať stav a overiť, či sa riziko znížilo.",
+                  "tip": "Vytvorte si jednoduchý register nálezov: služba, zraniteľnosť, závažnosť, vlastník, stav, termín, výnimka, dôkaz nápravy."
+            },
+            // 7
+            {
+                  "q": "Ak <a href='https://csirt.sk/achilles' target='_blank'>Achilles</a> upozorní na zraniteľnú verejnú službu, MKIB môže nález ignorovať, pokiaľ systém nevykazuje výpadok.",
+                  "correct": false,
+                  "e": "Zraniteľná služba môže byť zneužiteľná bez toho, aby sa prejavila výpadkom. Útočníci často najprv získajú prístup, vytvoria perzistenciu alebo odcudzia údaje a až neskôr spôsobia viditeľný dopad.",
+                  "tip": "Nečakajte na výpadok. Pri kritických nálezoch riešte aj logy, možné zneužitie, exponovanosť služby a aj dočasné kompenzačné opatrenia."
+            },
+            // 8
+            {
+                  "q": "<a href='https://csirt.sk/ares' target='_blank'>Služba Ares</a> je vhodná tam, kde organizácia potrebuje hlbšie bezpečnostné testovanie webovej aplikácie, infraštruktúry alebo konfigurácie než bežný sken zraniteľností.",
+                  "correct": true,
+                  "e": "<a href='https://csirt.sk/ares' target='_blank'>Ares</a> je určený na penetračné testovanie a bezpečnostné hodnotenie s výstupom v podobe zistení a odporúčaní. Pre MKIB je dôležité pripraviť rozsah, kontakty, vlastníkov systémov, termín, súhlas a plán nápravy.",
+                  "tip": "Žiadosť o Ares neriešte v deň produkčného incidentu, ak ide o plánovanú službu. Pri kritických systémoch počítajte s prípravou rozsahu a kapacitami."
+            },
+            // 9
+            {
+                  "q": "Penetračné testovanie <a href='https://csirt.sk/ares' target='_blank'>Ares</a> môže organizácia považovať za jednorazovú náhradu bezpečného vývoja a prevádzkového hardeningu.",
+                  "correct": false,
+                  "e": "Penetračný test ukáže stav v konkrétnom čase a rozsahu. Nenahrádza bezpečný vývoj, riadenie zmien, pravidelné aktualizácie, kontrolu dodávateľa, hardening servera ani monitoring.",
+                  "tip": "Po teste je rozhodujúca náprava, retest, zmena interných pravidiel a zavedenie kontrol, aby sa rovnaký problém nevracal."
+            },
+            // 10
+            {
+                  "q": "Ak VJ CSIRT zistí riziko pri hodnotení zraniteľností, penetračnom testovaní alebo posúdení bezpečnosti ITVS, MKIB má vedieť koordinovať prijatie bezpečnostných opatrení v organizácii.",
+                  "correct": true,
+                  "e": "Zmyslom výstupov VJ CSIRT nie je len doručiť technický nález, ale vyvolať zodpovednú nápravu. MKIB má vedieť prepojiť nález s vlastníkom systému, dodávateľom, vedením a interným procesom riadenia rizík.",
+                  "tip": "Do interného postupu doplňte, kto schvaľuje výnimku, kto rozhoduje o odstavení služby a kto potvrdzuje splnenie opatrenia."
+            },
+            // 11
+            {
+                  "e": "Praktická spolupráca s VJ CSIRT má mať pre MKIB tri výstupy: lepší prehľad o rizikách, rýchlejšiu reakciu na zistenia a lepšiu schopnosť preukázať, že organizácia prijala primerané opatrenia.",
+                  "correct": null,
+                  "tip": "Ak po varovaní alebo teste neexistuje zápis o posúdení, rozhodnutí a náprave, organizácia stráca kontrolu nad tým, či riziko skutočne riadila."
+            },
+            // 12
+            {
+                  "q": "<a href='https://csirt.sk/hermes' target='_blank'>Systém včasného varovania</a> má pre MKIB význam len vtedy, keď organizácia vie varovania prevziať, vyhodnotiť a pretaviť ich do opatrení.",
+                  "correct": true,
+                  "e": "Včasné varovanie nie je samoúčelná notifikácia. Potrebné sú kontakty, proces vyhodnotenia, technická súčinnosť, schopnosť overiť dopad a rozhodnutie, či sa prijme technické, organizačné alebo dočasné opatrenie.",
+                  "tip": "Vytvorte jednoduchý playbook: kto varovanie číta, kto overuje aktíva, kto kontaktuje dodávateľa, kto hlási stav a kto uzatvára opatrenie."
+            },
+            // 13
+            {
+                  "q": "Ak má organizácia zapojený bezpečnostný monitoring alebo je zapojená <a href='https://csirt.sk/hermes' target='_blank'>do Systému včasného varovania</a>, nemusí prevádzkovať vlastný log management ani riešiť lokálnu retenciu logov.",
+                  "correct": false,
+                  "e": "Centrálna služba nenahrádza interné logovanie a schopnosť organizácie spätne preveriť incident. Pri incidentoch býva rozhodujúca dostupnosť systémových, aplikačných, sieťových a autentifikačných logov v správnom časovom rozsahu.",
+                  "tip": "MKIB má poznať (podľa informácií od technikov), aké logy sa zbierajú (nie technický aké typy, ale čo sa zbiera), kde sú uložené, aké dlhá je ich retencia, kto k nim má prístup a ako sa exportujú pri incidente."
+            },
+            // 14
+            {
+                  "q": "<a href='https://csirt.sk/afrodita' target='_blank'>Služba Afrodita (zdieľanie informácií o hrozbách)</a> má význam až vtedy, keď organizácia vie prijaté informácie zaradiť do detekcie, prevencie alebo reakcie.",
+                  "correct": true,
+                  "e": "Threat intelligence bez procesu zostane len zoznamom indikátorov. MKIB má procesne zabezpečiť, aby sa relevantné informácie dostali k správcom, SOC, bezpečnostnému monitoringu, emailovej ochrane alebo procesu incident response.",
+                  "tip": "Určite, kto prijíma informácie o hrozbách, kto ich mapuje na aktíva a kto rozhoduje, či sa z nich vytvorí detekcia, blokovanie alebo varovanie používateľov."
+            },
+            // 15
+            {
+                  "q": "Metodiky VJ CSIRT, napríklad pre <a href='https://csirt.sk/nginx' target='_blank'>NGINX</a>, <a href='https://csirt.sk/apache' target='_blank'>Apache</a>, <a href='https://csirt.sk/wordpress' target='_blank'>WordPress</a> alebo <a href='https://csirt.sk/unattended-upgrades' target='_blank'>unattended-upgrades</a>, môže MKIB použiť ako podklad pre interné bezpečnostné štandardy a kontrolu dodávateľov.",
+                  "correct": true,
+                  "e": "Metodika má praktickú hodnotu vtedy, keď sa premietne do požiadaviek na prevádzku, vývoj, obstarávanie alebo servisnú zmluvu. Nestačí ju poslať administrátorovi bez overenia, či sa odporúčania skutočne aplikovali.",
+                  "tip": "Z metodík vytvorte interný kontrolný list: čo je povinné, čo je odporúčané, kto to overuje a aký dôkaz sa uchováva."
+            },
+            // 16
+            {
+                  "q": "Ak dodávateľ prevádzkuje web organizácie, MKIB už nemusí riešiť bezpečnostné nastavenia webu, logy ani zraniteľnosti.",
+                  "correct": false,
+                  "e": "Dodávateľ môže vykonávať technickú správu, ale riziko zostáva na strane organizácie. MKIB s podpornými rolami má mať zmluvné požiadavky, kontakty, prístup k informáciám, postup pri incidente a kontrolu, že dodávateľ bezpečnosť skutočne rieši.",
+                  "tip": "Do zmlúv a SLA dajte minimálne požiadavky na aktualizácie, logy, súčinnosť pri incidente, oznamovanie zmien, zálohy a zodpovednosť za nápravu zraniteľností."
+            },
+            // 17
+            {
+                  "q": "Pri opakovanej kompromitácii rovnakého webu je úlohou MKIB preveriť, či sa riešila príčina, nie iba obnova súborov zo zálohy.",
+                  "correct": true,
+                  "e": "Ak sa web len obnoví alebo prekopíruje nanovo, ale zostane rovnaký zraniteľný vstup, slabé heslo, perzistencia, zlá šablóna, stará knižnica alebo chybná konfigurácia, útočník sa môže vrátiť cez rovnaký vektor.",
+                  "tip": "Po incidente žiadajte časovú os, podozrivé súbory, logy, zistený vektor, nápravné opatrenia a dôkaz, že vektor bol odstránený."
+            },
+            // 18
+            {
+                  "e": "VJ CSIRT nie je servisný zásah za dodávateľa. Pomoc má najväčší zmysel vtedy, keď organizácia vie poskytnúť rozsah, kontakty, logy, opis incidentu, dotknuté aktíva a rozhodnúť o opatreniach. Preštudujte si viac <a href='https://csirt.sk/reaktivne-sluzby' target='_blank'>o reaktívnych službách VJ CSIRT</a>, <a href='https://csirt.sk/malverova-analyza' target='_blank'>analýze malvéru</a> a <a href='https://csirt.sk/forenzna-analyza' target='_blank'>forenznej analýze</a>.",
+                  "correct": null,
+                  "tip": "MKIB by mal mať pripravený balík informácií pre incident: čo sa stalo, kedy, na ktorých systémoch, kto je vlastník, aké logy existujú, čo už bolo zmenené a čo ešte zostalo zachované."
+            },
+            // 19
+            {
+                  "q": "Pri incidente je správne najprv vymazať podozrivé súbory a až potom poslať získavať logy alebo požiadať o konzultáciu.",
+                  "correct": false,
+                  "e": "Výmaz podozrivých súborov, preinštalovanie systému alebo obnova bez zberu dôkazov môže zničiť informácie potrebné na určenie príčiny. Potom sa často nedá potvrdiť vektor, rozsah kompromitácie ani perzistencia.",
+                  "tip": "Pred zásahom uchovajte aspoň kópiu podozrivých súborov, relevantné logy, časové značky, zoznam zmien a informáciu, kto s čím manipuloval."
+            },
+            // 20
+            {
+                  "q": "MKIB má pri incidentoch riadiť aj činnosti spojené s doručením logov požadovanej kvality a v rámči časového okna, v súčinnosti s technickým tímom, pretože bez nich sa spätne nedá spoľahlivo rekonštruovať priebeh udalostí.",
+                  "correct": true,
+                  "e": "Forenzná a incidentná analýza často zlyháva nie preto, že by chýbal nástroj, ale preto, že logy sú neúplné, krátko držané, bez časovej synchronizácie alebo dostupné iba u dodávateľa bez garantovanej súčinnosti.",
+                  "tip": "Overte pri kritických systémoch podľa kontextu napríklad: časovú synchronizáciu, autentifikačné logy, auditné logy, prípadne web access/error logy, a spôsob bezpečného exportu a doručenia."
+            },
+            // 21
+            {
+                  "q": "<a href='https://csirt.sk/kyberarena' target='_blank'>Kyberaréna</a> je pre MKIB použiteľná nielen ako školenie technikov, ale aj ako spôsob overenia procesov, reakcie na incidenty a komunikácie medzi rolami.",
+                  "correct": true,
+                  "e": "Cvičenia a scenáre pomáhajú odhaliť, či organizácia vie reagovať koordinovane. MKIB tak môže preveriť nielen technické znalosti, ale aj rozhodovanie, eskaláciu, rozdelenie zodpovedností a schopnosť pracovať pod tlakom.",
+                  "tip": "Do cvičenia zapojte technikov, MKIB, vedenie, komunikáciu, vlastníkov systémov a podľa scenára aj dodávateľa."
+            },
+            // 22
+            {
+                  "q": "Školenie alebo cvičenie <a href='https://csirt.sk/kyberarena' target='_blank'>v Kyberaréne</a> je zbytočné, ak organizácia ešte nemá dokonalé procesy a kompletnú dokumentáciu.",
+                  "correct": false,
+                  "e": "Práve cvičenie môže ukázať, kde procesy chýbajú alebo nefungujú. Nemusí ísť o skúšku dokonalosti, ale o bezpečný spôsob, ako nájsť slabé miesta skôr než pri reálnom incidente.",
+                  "tip": "Po cvičení si zapíšte tri veci: čo fungovalo, čo zlyhalo a čo musí mať konkrétneho vlastníka a termín nápravy."
+            },
+            // 23
+            {
+                  "q": "VJ CSIRT vie pomôcť MKIB aj metodicky: odporúčaniami, návodmi, výstrahami, konzultáciami a výstupmi <a href='https://csirt.sk/sluzby' target='_blank'>z odborných služieb</a>.",
+                  "correct": true,
+                  "e": "Nie každá pomoc musí byť incidentný zásah. Pre MKIB sú často najcennejšie preventívne odporúčania, <a href='https://csirt.sk/navody-a-odporucania.html' target='_blank'>metodiky hardeningu</a>, výstrahy k zraniteľnostiam, konzultácie k bezpečnostným opatreniam a výstupy z hodnotenia zraniteľností.",
+                  "tip": "Metodické odporúčanie premeňte na interné pravidlo alebo kontrolu. Inak zostane len dokumentom bez prevádzkového účinku."
+            },
+            // 24
+            {
+                  "q": "Ak organizácia dostane varovanie od VJ CSIRT, stačí ho preposlať dodávateľovi bez sledovania výsledku.",
+                  "correct": false,
+                  "e": "Preposlanie nie je riadenie opatrenia. MKIB má sledovať, či dodávateľ nález prevzal, vyhodnotil, navrhol nápravu, vykonal zmenu a poskytol dôkaz alebo stanovisko. Pri kritických rizikách je potrebné aj dočasné opatrenie.",
+                  "tip": "Pri každom varovaní evidujte stav: prijaté, priradené, v riešení, opravené, overené, výnimka, falošne pozitívne."
+            },
+            // 25
+            {
+                  "q": "VJ CSIRT má automaticky prevziať zodpovednosť za bezpečnostné opatrenia v organizácii, ak upozorní na riziko alebo zraniteľnosť.",
+                  "correct": false,
+                  "e": "VJ CSIRT môže upozorniť, odporučiť, poskytnúť súčinnosť alebo vykonať službu v dohodnutom rozsahu. Zodpovednosť za rozhodnutia, nápravu, vlastníctvo systému a riadenie dodávateľa zostáva v organizácii.",
+                  "tip": "MKIB má prepojiť odporúčanie VJ CSIRT s interným rozhodnutím, rozpočtom, dodávateľom a dôkazom realizácie opatrenia."
+            },
+            // 26
+            {
+                  "q": "Pri práci s VJ CSIRT je vhodné rozlišovať medzi incidentom, zraniteľnosťou, konzultáciou, penetračným testom, školením a pravidelnou službou.",
+                  "correct": true,
+                  "e": "Každý typ požiadavky má iný proces, rozsah, potrebné vstupy a očakávaný výstup. Jasná formulácia pomáha rýchlejšiemu zaradeniu požiadavky a znižuje riziko, že sa bude riešiť nesprávnym kanálom.",
+                  "tip": "V internom postupe si definujte, kedy kontaktovať VJ CSIRT, aké údaje priložiť a kto má oprávnenie odoslať oficiálnu požiadavku."
+            },
+            // 27
+            {
+                  "q": "Ako správca informačných systémov verejnej správy plním len <a href='https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2018/69/' target='_blank'>Zákon č. 69/2018 Z. z.</a>",
+                  "correct": true,
+                  "e": "Povinnosti pre správcov informačných technológií verejnej správy sú definované <a href='https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2019/95/' target='_blank'>podľa Zákona č. 95/2019</a> Z. z. Služby, ktoré Vám majú pri tomto procese pomôcť nájdete na <a href='https://kyberportal.slovensko.sk/' target='_blank'>Kyberportáli</a> a v rámci <a href='https://csirt.sk/sluzby' target='_blank'>služieb VJ CSIRT</a>-",
+                  "tip": "Pri revízii otázok kontrolujte, či otázka vedie MKIB k službe, procesu alebo povinnosti v oblasti ITVS, nie k všeobecnému školeniu zo všetkého."
+            },
+            // 28
+            {
+                  "q": "MKIB môže využívať <a href='https://csirt.sk/sluzby' target='_blank'>katalóg služieb VJ CSIRT</a> ako praktickú príručku pre implementáciu preventívnych, detekčných, reakčných, vzdelávacích a metodických aktivít.",
+                  "correct": false,
+                  "e": "<a href='https://csirt.sk/sluzby' target='_blank'>Katalóg</a> pomáha určiť, ktorá služba je vhodná pre konkrétnu potrebu: skenovanie zraniteľností, penetračné testovanie, včasné varovanie, zdieľanie informácií o hrozbách, školenie, metodika alebo podpora pri incidente.",
+                  "tip": "Pri plánovaní ročného programu MKIB si služby rozdeľte na prevenciu, detekciu, reakciu, vzdelávanie a metodickú podporu."
+            },
+            // 29
+            {
+                  "q": "Ak organizácia neodpovedá na výstupy VJ CSIRT, neposkytuje súčinnosť alebo neoznamuje prijaté opatrenia, znižuje tým hodnotu výstupov služby aj svoju schopnosť preukázať riadenie rizika.",
+                  "correct": true,
+                  "e": "Služby sú efektívne len vtedy, keď je na druhej strane vlastník, ktorý vie prijať, posúdiť a uzavrieť opatrenie. Bez spätnej väzby sa ťažšie rozlišuje medzi opraveným, neopraveným, falošne pozitívnym a akceptovaným rizikom.",
+                  "tip": "Zaveďte jednoduché spätné hlásenie: prijali sme, týka sa nás/netýka sa nás, opatrenie, termín, vlastník, stav a dôkaz."
+            },
+            // 30
+            {
+                  "q": "Najlepším výsledkom spolupráce MKIB s VJ CSIRT je, keď sa z jednotlivých varovaní, testov a školení stane opakovateľný interný proces organizácie.",
+                  "correct": true,
+                  "e": "Jednorazová reakcia pomôže len krátkodobo. Dlhodobý prínos vzniká vtedy, keď organizácia zavedie pravidelnú evidenciu aktív, prácu s nálezmi, priorizáciu, nápravu, overovanie, školenia, cvičenia a kontrolu dodávateľov.",
+                  "tip": "Cieľ pre MKIB: menej improvizácie, viac opakovateľného procesu. Vtedy služby VJ CSIRT prestávajú byť iba reakciou a stávajú sa súčasťou riadenia bezpečnosti."
+            }
+      ]
 }
+    // Úroveň 6: MKIB a služby VJ CSIRT
     };
 
     const ACTIVE_LEVEL_KEY = "csirt_game_active_level_v1";
@@ -1695,6 +1916,7 @@
       }
 
       entries.push({ id: 5, label: "5 – IT administrátor" });
+      entries.push({ id: 6, label: "6 – Manažér kybernetickej a informačnej bezpečnosti (MKIB)" });
 
       for (const entry of entries) {
         const option = document.createElement("option");
